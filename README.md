@@ -13,6 +13,6 @@ which encourages the drawer to blur as little as possible to drive their own mul
 Since they still need to keep it hard enough to cost the guessing players as much time as possible, this results in dynamic and risk-rewarding rounds.
 
 ## Footnotes
-Collaborative project with [@rabitem](https://github.com/rabitem) and [@seedox](https://github.com/sedoox)
+Collaborative project with [@rabitem](https://github.com/rabitem) and [@sedoox](https://github.com/sedoox)
 
 All images for guessing are provided by the [Pexels](https://www.pexels.com/) API
