@@ -20,7 +20,7 @@ import kotlin.math.log10
 class BlurDrawView : AppCompatImageView {
 
     // Settings for blur painting
-    private val blurFactor = 2
+    private val blurFactor = 3
     private val radius = 100f
 
     // The Points to draw circles on
@@ -59,14 +59,7 @@ class BlurDrawView : AppCompatImageView {
             return
         }
 
-        original = drawable.toBitmap()
-        originalPHash = pHash.calcPHash(original)
-
-        blurred = getBlurredBitmap(original)
-        paint.shader = BitmapShader(blurred, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-
-        bufferBitmap = original.copy(Bitmap.Config.ARGB_8888, true)
-        bufferCanvas = Canvas(bufferBitmap)
+        initialize()
     }
 
     /**
@@ -159,5 +152,18 @@ class BlurDrawView : AppCompatImageView {
         bufferCanvas = Canvas(bufferBitmap)
         updateScoreMultiplier()
         invalidate()
+    }
+
+    fun initialize() {
+        if (drawable == null) return
+
+        original = drawable.toBitmap()
+        originalPHash = pHash.calcPHash(original)
+
+        blurred = getBlurredBitmap(original)
+        paint.shader = BitmapShader(blurred, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+
+        bufferBitmap = original.copy(Bitmap.Config.ARGB_8888, true)
+        bufferCanvas = Canvas(bufferBitmap)
     }
 }

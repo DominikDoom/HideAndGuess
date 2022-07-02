@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">HideAndGuess</string>
 
+    <string name="label_select_image">Select the image you want to blur</string>
+    <string name="contentDescription.first">The first image</string>
+    <string name="contentDescription.second">The second image</string>
+    <string name="contentDescription.third">The third image</string>
+
     <string name="reset">Reset</string>
 </resources>

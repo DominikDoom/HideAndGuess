@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainMenuFragment">
 
     <fragment
         android:id="@+id/mainMenuFragment"
         android:name="de.thm.mobiletech.hideandguess.MainMenuFragment"
-        android:label="MainMenuFragment" >
+        android:label="MainMenuFragment"
+        tools:layout="@layout/fragment_main_menu">
         <action
-            android:id="@+id/action_openDrawBlurFragment"
-            app:destination="@id/drawBlurFragment"
+            android:id="@+id/action_openImageSelection"
+            app:destination="@id/imageSelectionFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -19,9 +21,24 @@
     <fragment
         android:id="@+id/drawBlurFragment"
         android:name="de.thm.mobiletech.hideandguess.DrawBlurFragment"
-        android:label="DrawBlurFragment">
+        android:label="DrawBlurFragment"
+        tools:layout="@layout/fragment_draw_blur">
         <argument
-            android:name="username"
+            android:name="imageUrl"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageSelectionFragment"
+        android:name="de.thm.mobiletech.hideandguess.ImageSelectionFragment"
+        android:label="ImageSelectionFragment"
+        tools:layout="@layout/fragment_image_selection">
+        <action
+            android:id="@+id/action_openDrawBlurFragment"
+            app:destination="@id/drawBlurFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/mainMenuFragment" />
     </fragment>
 </navigation>

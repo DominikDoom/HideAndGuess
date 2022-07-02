@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="searchQueries">
+        <item>Ente</item>
+        <item>Kuh</item>
+        <item>Hund</item>
+        <item>Katze</item>
+        <item>Maus</item>
+        <item>Rose</item>
+        <item>Apple</item>
+        <item>Radfahrer</item>
+        <item>Papagei</item>
+        <item>Qualle</item>
+        <item>Berg</item>
+        <item>Mond</item>
+        <item>Sonnenblume</item>
+        <item>Axt</item>
+        <item>Messer</item>
+        <item>Gitarre</item>
+        <item>Känguru</item>
+        <item>Zug</item>
+        <item>Schmetterling</item>
+        <item>Raupe</item>
+        <item>Ritter</item>
+        <item>Tee</item>
+        <item>Kaffee</item>
+        <item>Kuchen</item>
+    </string-array>
+</resources>
