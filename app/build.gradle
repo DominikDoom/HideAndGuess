@@ -16,6 +16,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Load custom properties file
+        def props = new Properties()
+        file("api.properties").withInputStream { props.load(it) }
+        buildConfigField 'String', 'PexelsApiKey', props.getProperty('pexels.key')
     }
 
     buildTypes {
@@ -24,6 +29,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
