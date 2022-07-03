@@ -15,7 +15,6 @@ import de.thm.mobiletech.hideandguess.pexels.PexelsApi
 import de.thm.mobiletech.hideandguess.pexels.PexelsResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 /**
  * A simple [Fragment] subclass.
@@ -69,13 +68,12 @@ class ImageSelectionFragment : Fragment() {
         val api = PexelsApi(BuildConfig.PexelsApiKey)
 
         val queries = resources.getStringArray(R.array.searchQueries)
-        val random = Random(System.currentTimeMillis()).nextInt(queries.size)
 
         if (lastQuery == null)
-            lastQuery = queries[random]
+            lastQuery = queries.random()
 
         lifecycleScope.launch {
-            val defer = async { api.search(lastQuery!!, 3) }
+            val defer = async { api.searchRandomPage(lastQuery!!, 3) }
 
             pexelsResult = defer.await()
             val images = pexelsResult!!.images.map { it.sources.large }

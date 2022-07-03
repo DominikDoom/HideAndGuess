@@ -51,11 +51,12 @@ class PexelsApi(private val secret: String) {
         }
     }
 
-    suspend fun search(query: String, perPage: Int) : PexelsResult {
+    private suspend fun search(query: String, perPage: Int, page: Int = 1): PexelsResult {
         val uriString = Uri.parse(url)
             .buildUpon()
             .appendQueryParameter("query", query)
             .appendQueryParameter("per_page", perPage.toString())
+            .appendQueryParameter("page", page.toString())
             .build().toString()
         val result = try {
             getResponse(uriString)
@@ -66,6 +67,24 @@ class PexelsApi(private val secret: String) {
         return when (result) {
             is Result.Success -> PexelsResult.fromJson(result.data)
             else -> throw (result as Result.Error).exception
+        }
+    }
+
+    suspend fun searchRandomPage(query: String, perPage: Int): PexelsResult {
+        // Get first page with total results/pages information
+        val firstResult = search(query, perPage)
+        val totalResults = firstResult.totalResults
+        val totalPages = totalResults / perPage
+
+        // Check for incomplete last page
+        val lastPage = if (totalResults % perPage == 0) totalPages else totalPages - 1
+
+        val randomPage = (1..lastPage).random()
+
+        return if (randomPage == 1) {
+            firstResult
+        } else {
+            search(query, perPage, randomPage)
         }
     }
 }
