@@ -1,10 +1,14 @@
 package de.thm.mobiletech.hideandguess.pexels
 
 import android.net.Uri
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class PexelsApi(private val secret: String) {
 
@@ -22,6 +26,16 @@ class PexelsApi(private val secret: String) {
                 connect()
                 when (responseCode) {
                     200 -> {
+                        // Get request limit information from headers
+                        val remaining = getHeaderField("X-Ratelimit-Remaining")
+                        val reset = getHeaderField("X-Ratelimit-Reset")
+                        val dateReadable = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                            .withZone(ZoneId.systemDefault())
+                            .format(Instant.ofEpochSecond(reset.toLong()))
+                        // Log request limit information
+                        Log.d("PexelsApi", "Request successful")
+                        Log.d("PexelsApi", "Remaining: $remaining, Resets at $dateReadable")
+
                         inputStream.bufferedReader().use {
                             val response = StringBuffer()
                             it.lines().forEach { line ->
