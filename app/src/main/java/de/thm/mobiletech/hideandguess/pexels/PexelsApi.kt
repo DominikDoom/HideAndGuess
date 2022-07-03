@@ -9,6 +9,7 @@ import java.net.URL
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 class PexelsApi(private val secret: String) {
 
@@ -79,7 +80,7 @@ class PexelsApi(private val secret: String) {
         // Check for incomplete last page
         val lastPage = if (totalResults % perPage == 0) totalPages else totalPages - 1
 
-        val randomPage = (1..lastPage).random()
+        val randomPage = (1..lastPage).random(Random(System.currentTimeMillis()))
 
         return if (randomPage == 1) {
             firstResult
