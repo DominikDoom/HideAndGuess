@@ -69,14 +69,15 @@ class BlurDrawView : AppCompatImageView {
     private fun getBlurredBitmap(source: Bitmap): Bitmap {
         var tempBitmap = source
 
-        // Downsample the source before blurring to improve performance and blur amount
-        tempBitmap = tempBitmap.scale(source.width / blurFactor, source.height / blurFactor)
+        // Downscale the source before blurring to improve performance and blur amount
+        val resize = (800 * (1.0/blurFactor)).toInt()
+        tempBitmap = tempBitmap.scale(resize, resize)
 
         // Blur the bitmap, doing multiple iterations to increase the blur amount
         for (i in 0 until blurFactor)
             tempBitmap = Toolkit.blur(tempBitmap, 25)
 
-        // Upsample the bitmap to the original size again
+        // Upscale the bitmap to the original size again
         tempBitmap = tempBitmap.scale(source.width, source.height)
 
         return tempBitmap
@@ -87,12 +88,17 @@ class BlurDrawView : AppCompatImageView {
         paint.shader?.setLocalMatrix(imageMatrix)
         imageMatrix.invert(inverse)
         bufferCanvas.setMatrix(inverse)
+
+        // Scale circle radius for consistent drawing size
+        val scaledRadius = imageMatrix.mapRadius(radius)
+
         // Draw the original image
         super.onDraw(canvas)
 
+        // Draw circles of the blurred image around each point
         for (point in points) {
-            canvas.drawCircle(point.x, point.y, radius, paint) // draw with transforms for visible outcome
-            bufferCanvas.drawCircle(point.x, point.y, radius, paint) // draw with correct source measurements for calculations
+            canvas.drawCircle(point.x, point.y, scaledRadius, paint) // draw with transforms for visible outcome
+            bufferCanvas.drawCircle(point.x, point.y, scaledRadius, paint) // draw with correct source measurements for calculations
         }
     }
 
