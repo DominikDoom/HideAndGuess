@@ -76,14 +76,15 @@ class BlurDrawView : AppCompatImageView {
     private fun getBlurredBitmap(source: Bitmap): Bitmap {
         var tempBitmap = source
 
-        // Downsample the source before blurring to improve performance and blur amount
-        tempBitmap = tempBitmap.scale(source.width / blurFactor, source.height / blurFactor)
+        // Downscale the source before blurring to improve performance and blur amount
+        val resize = (500 * (1.0/blurFactor)).toInt()
+        tempBitmap = tempBitmap.scale(resize, resize)
 
         // Blur the bitmap, doing multiple iterations to increase the blur amount
         for (i in 0 until blurFactor)
             tempBitmap = Toolkit.blur(tempBitmap, 25)
 
-        // Upsample the bitmap to the original size again
+        // Upscale the bitmap to the original size again
         tempBitmap = tempBitmap.scale(source.width, source.height)
 
         return tempBitmap
