@@ -28,14 +28,21 @@ class PexelsApi(private val secret: String) {
                 when (responseCode) {
                     200 -> {
                         // Get request limit information from headers
+                        val limit = getHeaderField("X-RateLimit-Limit")
                         val remaining = getHeaderField("X-Ratelimit-Remaining")
                         val reset = getHeaderField("X-Ratelimit-Reset")
-                        val dateReadable = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                            .withZone(ZoneId.systemDefault())
-                            .format(Instant.ofEpochSecond(reset.toLong()))
+
                         // Log request limit information
                         Log.d("PexelsApi", "Request successful")
-                        Log.d("PexelsApi", "Remaining: $remaining, Resets at $dateReadable")
+                        if (limit != null && reset != null) {
+                            val dateReadable = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                .withZone(ZoneId.systemDefault())
+                                .format(Instant.ofEpochSecond(reset.toLong()))
+
+                            Log.d("PexelsApi", "Remaining: $remaining, Resets at $dateReadable")
+                        } else {
+                            Log.d("PexelsApi", "This API key is not rate limited")
+                        }
 
                         inputStream.bufferedReader().use {
                             val response = StringBuffer()
