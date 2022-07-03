@@ -15,21 +15,19 @@ import de.thm.mobiletech.hideandguess.util.ImagePHash
 import kotlinx.coroutines.*
 import kotlin.math.abs
 import kotlin.math.log10
-import kotlin.math.max
 
 
 class BlurDrawView : AppCompatImageView {
 
     // Settings for blur painting
     private val blurFactor = 2
-    private val radius = 40f
+    private val radius = 100f
 
     // The Points to draw circles on
     private val points = arrayListOf<PointF>()
 
     // Inverse matrix to scale the canvas operations back to the bitmap
     private val inverse = Matrix()
-    private val imValues = FloatArray(9)
 
     // Buffers to get modified bitmap
     private lateinit var bufferCanvas: Canvas
@@ -98,12 +96,13 @@ class BlurDrawView : AppCompatImageView {
         imageMatrix.invert(inverse)
         bufferCanvas.setMatrix(inverse)
 
-        // Get image matrix scale factor to adjust circle radius
-        imageMatrix.getValues(imValues)
-        val scaledRadius = radius * max(imValues[Matrix.MSCALE_X], imValues[Matrix.MSCALE_Y])
+        // Scale circle radius for consistent drawing size
+        val scaledRadius = imageMatrix.mapRadius(radius)
 
         // Draw the original image
         super.onDraw(canvas)
+
+        // Draw circles of the blurred image around each point
         for (point in points) {
             canvas.drawCircle(point.x, point.y, scaledRadius, paint) // draw with transforms for visible outcome
             bufferCanvas.drawCircle(point.x, point.y, scaledRadius, paint) // draw with correct source measurements for calculations
