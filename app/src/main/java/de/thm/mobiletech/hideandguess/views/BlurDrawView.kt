@@ -15,19 +15,21 @@ import de.thm.mobiletech.hideandguess.util.ImagePHash
 import kotlinx.coroutines.*
 import kotlin.math.abs
 import kotlin.math.log10
+import kotlin.math.max
 
 
 class BlurDrawView : AppCompatImageView {
 
     // Settings for blur painting
     private val blurFactor = 2
-    private val radius = 100f
+    private val radius = 40f
 
     // The Points to draw circles on
     private val points = arrayListOf<PointF>()
 
     // Inverse matrix to scale the canvas operations back to the bitmap
     private val inverse = Matrix()
+    private val imValues = FloatArray(9)
 
     // Buffers to get modified bitmap
     private lateinit var bufferCanvas: Canvas
@@ -77,7 +79,7 @@ class BlurDrawView : AppCompatImageView {
         var tempBitmap = source
 
         // Downscale the source before blurring to improve performance and blur amount
-        val resize = (500 * (1.0/blurFactor)).toInt()
+        val resize = (800 * (1.0/blurFactor)).toInt()
         tempBitmap = tempBitmap.scale(resize, resize)
 
         // Blur the bitmap, doing multiple iterations to increase the blur amount
@@ -95,12 +97,16 @@ class BlurDrawView : AppCompatImageView {
         paint.shader?.setLocalMatrix(imageMatrix)
         imageMatrix.invert(inverse)
         bufferCanvas.setMatrix(inverse)
+
+        // Get image matrix scale factor to adjust circle radius
+        imageMatrix.getValues(imValues)
+        val scaledRadius = radius * max(imValues[Matrix.MSCALE_X], imValues[Matrix.MSCALE_Y])
+
         // Draw the original image
         super.onDraw(canvas)
-
         for (point in points) {
-            canvas.drawCircle(point.x, point.y, radius, paint) // draw with transforms for visible outcome
-            bufferCanvas.drawCircle(point.x, point.y, radius, paint) // draw with correct source measurements for calculations
+            canvas.drawCircle(point.x, point.y, scaledRadius, paint) // draw with transforms for visible outcome
+            bufferCanvas.drawCircle(point.x, point.y, scaledRadius, paint) // draw with correct source measurements for calculations
         }
     }
 
