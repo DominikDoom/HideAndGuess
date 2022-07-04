@@ -59,9 +59,12 @@ class ImageSelectionFragment : DataBindingFragment<FragmentImageSelectionBinding
             lastQuery = queries.random(Random(System.currentTimeMillis()))
 
         lifecycleScope.launch {
-            val defer = async { api.searchRandomPage(lastQuery!!, 3) }
+            // To break up sequential images, we request more per page than we need
+            val defer = async { api.searchRandomPage(lastQuery!!, 15) }
 
             pexelsResult = defer.await()
+            // Shuffle the result list to select random elements from the page
+            pexelsResult!!.images.shuffle(Random(System.currentTimeMillis()))
             val images = pexelsResult!!.images.map { it.sources.large }
 
             val context = this@ImageSelectionFragment

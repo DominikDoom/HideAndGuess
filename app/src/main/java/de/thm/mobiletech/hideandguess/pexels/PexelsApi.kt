@@ -9,6 +9,7 @@ import java.net.URL
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.math.pow
 import kotlin.random.Random
 
 class PexelsApi(private val secret: String) {
@@ -78,6 +79,12 @@ class PexelsApi(private val secret: String) {
         }
     }
 
+    private fun getWeightedRandom(range: IntRange, bias: Float): Int {
+        var r = Random(System.currentTimeMillis()).nextFloat()
+        r = r.pow(bias)
+        return (range.first + (range.last - range.first) * r).toInt()
+    }
+
     suspend fun searchRandomPage(query: String, perPage: Int): PexelsResult {
         // Get first page with total results/pages information
         val firstResult = search(query, perPage)
@@ -87,7 +94,8 @@ class PexelsApi(private val secret: String) {
         // Check for incomplete last page
         val lastPage = if (totalResults % perPage == 0) totalPages else totalPages - 1
 
-        val randomPage = (1..lastPage).random(Random(System.currentTimeMillis()))
+        // Get random page, but biased towards lower pages for more relevant images
+        val randomPage = getWeightedRandom(1..lastPage, 10f)
 
         return if (randomPage == 1) {
             firstResult
