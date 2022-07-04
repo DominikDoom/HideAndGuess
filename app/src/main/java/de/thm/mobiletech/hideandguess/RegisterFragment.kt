@@ -1,9 +1,9 @@
 package de.thm.mobiletech.hideandguess
 
 import de.thm.mobiletech.hideandguess.databinding.FragmentRegisterBinding
-import de.thm.mobiletech.hideandguess.util.DatabindingFragment
+import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 
-class RegisterFragment : DatabindingFragment<FragmentRegisterBinding>(R.layout.fragment_register) {
+class RegisterFragment : DataBindingFragment<FragmentRegisterBinding>(R.layout.fragment_register) {
 
     override fun setBindingContext() {
         binding.context = this

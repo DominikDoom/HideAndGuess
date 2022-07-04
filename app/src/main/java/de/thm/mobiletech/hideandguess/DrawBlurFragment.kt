@@ -6,12 +6,12 @@ import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.thm.mobiletech.hideandguess.databinding.FragmentDrawBlurBinding
-import de.thm.mobiletech.hideandguess.util.DatabindingFragment
+import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 
 /**
  * A simple [Fragment] subclass using data binding.
  */
-class DrawBlurFragment : DatabindingFragment<FragmentDrawBlurBinding>(R.layout.fragment_draw_blur) {
+class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.fragment_draw_blur) {
 
     private val args: DrawBlurFragmentArgs by navArgs() // Get SafeArgs from Navigation
     val username : ObservableField<String> = ObservableField()

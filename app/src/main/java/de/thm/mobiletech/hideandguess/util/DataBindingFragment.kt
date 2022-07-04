@@ -20,11 +20,11 @@ import de.thm.mobiletech.hideandguess.R
  *
  * **Example:**
  * ```
- * TestFragment : DatabindingFragment<FragmentTestBinding>(R.layout.fragment_test)
+ * TestFragment : DataBindingFragment<FragmentTestBinding>(R.layout.fragment_test)
  * ```
  * @param layout The R.layout.layout_id reference to inflate.
  * */
-abstract class DatabindingFragment<BD : ViewDataBinding>(val layout: Int) :
+abstract class DataBindingFragment<BD : ViewDataBinding>(val layout: Int) :
     Fragment(),
     IDatabindingContext {
 
