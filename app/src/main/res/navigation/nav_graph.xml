@@ -37,4 +37,8 @@
         android:id="@+id/registerFragment"
         android:name="de.thm.mobiletech.hideandguess.RegisterFragment"
         android:label="RegisterFragment" />
+    <fragment
+        android:id="@+id/playerCustomizingFragment"
+        android:name="de.thm.mobiletech.hideandguess.PlayerCustomizingFragment"
+        android:label="PlayerCustomizingFragment" />
 </navigation>
