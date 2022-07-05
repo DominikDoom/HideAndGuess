@@ -15,31 +15,37 @@
         android:layout_height="match_parent"
         tools:context=".MainMenuFragment">
 
-        <EditText
-            android:id="@+id/editTextUsername"
+        <Button
+            android:id="@+id/button_create_game"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="Enter your username"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/openDrawButton"
+            android:layout_marginBottom="100dp"
+            android:text="Raum erstellen"
+            android:textSize="24sp"
+            app:icon="@android:drawable/ic_menu_add"
+            android:onClick="@{() -> context.createGame()}"
+            app:iconSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/openDrawButton"
+            android:id="@+id/button_join_game"
+            style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="@{!editTextUsername.text.toString().trim().empty}"
-            android:onClick="@{() -> context.openDrawFragment()}"
-            android:text="Open draw fragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editTextUsername"
-            app:layout_constraintStart_toStartOf="@+id/editTextUsername"
-            app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+            android:layout_marginTop="20dp"
+            android:text="Raum beitreten"
+            android:textSize="24sp"
+            android:onClick="@{() -> context.joinGame()}"
+            app:icon="@android:drawable/ic_menu_send"
+            app:iconSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_create_game" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -13,11 +13,12 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
         binding.context = this
     }
 
-    fun openDrawFragment() {
-        val username = binding.editTextUsername.text.toString()
+    fun joinGame() {
 
-        // Create action to navigate with SafeArgs
-        val action = MainMenuFragmentDirections.actionOpenDrawBlurFragment(username)
-        navController.navigate(action)
     }
+
+    fun createGame() {
+
+    }
+
 }
