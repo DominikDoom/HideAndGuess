@@ -8,4 +8,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         binding.context = this
     }
 
+    fun addPlayer(user: User) {
+
+    }
 }
