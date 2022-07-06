@@ -1,11 +1,14 @@
 package de.thm.mobiletech.hideandguess
 
+import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import de.thm.mobiletech.hideandguess.databinding.FragmentLobbyBinding
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import java.util.*
 
 class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragment_lobby) {
     override fun setBindingContext() {
@@ -14,16 +17,12 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // addPlayer(yourself)
-    }
-
-    fun addPlayer(user: User) {
-        val grid = binding.gridlayoutPlayers
-        val view = layoutInflater.inflate(R.layout.cardview_user, grid, false)
-        val text = view.findViewById<TextView>(R.id.textViewUser)
-        val image = view.findViewById<ImageView>(R.id.imageViewUser)
-        text.text = user.username
-        image.setImageResource(R.drawable.example_user_image1)
-        grid.addView(view)
+        binding.recyclerViewUser.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerViewUser.adapter = UserAdapter(
+            listOf(User("sedoox"),
+                User("hallo"),
+                User("hasf"),
+                User("sdfsdffqwwfwqef"))
+        )
     }
 }

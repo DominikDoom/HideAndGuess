@@ -9,95 +9,12 @@
             type="de.thm.mobiletech.hideandguess.LobbyFragment" />
     </data>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <GridLayout
-            android:id="@+id/gridlayout_players"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnCount="2">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/drawBlurFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="0"
-                android:layout_margin="12dp"
-                android:cardElevation="12dp"
-                android:clipToPadding="false"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="12dp"
-                app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="false"
-                app:contentPadding="12dp"
-                app:radius="12dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_weight="0.5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="sadfgs"
-                        android:textSize="30dp" />
-
-                    <ImageView
-                        android:layout_weight="0.5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/example_user_image1" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/drawBlurFragment2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="0"
-                android:layout_margin="12dp"
-                android:cardElevation="12dp"
-                android:clipToPadding="false"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="12dp"
-                app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="false"
-                app:contentPadding="12dp"
-                app:radius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_weight="0.5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Felix"
-                        android:textSize="30dp" />
-
-                    <ImageView
-                        android:layout_weight="0.5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/example_user_image1" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-        </GridLayout>
-
-
-
-    </ScrollView>
 </layout>

@@ -15,5 +15,9 @@ class User {
         this.image = image
     }
 
+    constructor(username: String) {
+        this.username = username
+    }
+
 
 }
