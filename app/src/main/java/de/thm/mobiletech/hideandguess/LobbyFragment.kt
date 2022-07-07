@@ -18,11 +18,13 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewUser.layoutManager = GridLayoutManager(context, 2)
-        binding.recyclerViewUser.adapter = UserAdapter(
-            listOf(User("sedoox"),
-                User("hallo"),
-                User("hasf"),
-                User("sdfsdffqwwfwqef"))
-        )
+        val exampleUserList = listOf(User("sedoox"),
+            User("hallo"),
+            User("hasf"),
+            User("sdfsdffqwwfwqef"))
+        binding.recyclerViewUser.adapter = UserAdapter(exampleUserList, onClick = {
+            val action = LobbyFragmentDirections.actionOpenUserDetailFragment(it)
+            navController.navigate(action)
+        })
     }
 }
