@@ -16,8 +16,8 @@ class StompLifecycleHandler : Consumer<LifecycleEvent> {
         when (lifecycleEvent?.type) {
             OPENED -> Log.d(tag, "Stomp connection opened")
             CLOSED -> Log.d(tag, "Stomp connection closed")
-            ERROR -> Log.d(tag, "Stomp connection error: ${lifecycleEvent.exception.message}")
-            FAILED_SERVER_HEARTBEAT -> Log.d(tag, "Stomp connection failed server heartbeat")
+            ERROR -> Log.e(tag, "Stomp connection error: ${lifecycleEvent.exception.message}")
+            FAILED_SERVER_HEARTBEAT -> Log.e(tag, "Stomp connection failed server heartbeat")
             else -> Log.d(tag, "Stomp lifecycle event: ${lifecycleEvent?.message}")
         }
     }
