@@ -19,7 +19,11 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_loginFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -29,7 +33,11 @@
         tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_mainMenuFragment_to_lobbyFragment"
-            app:destination="@id/lobbyFragment" />
+            app:destination="@id/lobbyFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/drawBlurFragment"
@@ -41,7 +49,11 @@
             app:argType="string" />
         <action
             android:id="@+id/action_drawBlurFragment_to_guessFragment"
-            app:destination="@id/guessFragment" />
+            app:destination="@id/guessFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -72,10 +84,18 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_lobbyFragment_to_guessFragment"
-            app:destination="@id/guessFragment" />
+            app:destination="@id/guessFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_lobbyFragment_to_drawBlurFragment"
-            app:destination="@id/drawBlurFragment" />
+            app:destination="@id/drawBlurFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
 
     </fragment>
@@ -87,10 +107,9 @@
         <argument
             android:name="user"
             app:argType="de.thm.mobiletech.hideandguess.User" />
-
         <action
-            android:id="@+id/action_openUserEditFragment"
-            app:destination="@id/userEditFragment"
+            android:id="@+id/action_userDetailFragment_to_playerCustomizingFragment"
+            app:destination="@id/playerCustomizingFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -99,23 +118,25 @@
     </fragment>
 
     <fragment
-        android:id="@+id/userEditFragment"
-        android:name="de.thm.mobiletech.hideandguess.UserEditFragment"
-        android:label="UserEditFragment"
-        tools:layout="@layout/fragment_user_edit">
-
-        <argument
-            android:name="user"
-            app:argType="de.thm.mobiletech.hideandguess.User" />
-
-    </fragment>
-    <fragment
         android:id="@+id/guessFragment"
         android:name="de.thm.mobiletech.hideandguess.GuessFragment"
         android:label="GuessFragment"
         tools:layout="@layout/fragment_guess">
         <action
             android:id="@+id/action_guessFragment_to_drawBlurFragment"
-            app:destination="@id/drawBlurFragment" />
+            app:destination="@id/drawBlurFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerCustomizingFragment"
+        android:name="de.thm.mobiletech.hideandguess.PlayerCustomizingFragment"
+        android:label="PlayerCustomizingFragment"
+        tools:layout="@layout/fragment_player_customizing">
+        <argument
+            android:name="user"
+            app:argType="de.thm.mobiletech.hideandguess.User" />
     </fragment>
 </navigation>

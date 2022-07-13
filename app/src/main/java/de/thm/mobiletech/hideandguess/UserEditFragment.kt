@@ -9,7 +9,7 @@ import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 
 class UserEditFragment : DataBindingFragment<FragmentUserEditBinding>(R.layout.fragment_user_edit) {
 
-    private val args: UserEditFragmentArgs by navArgs()
+    private val args: PlayerCustomizingFragmentArgs by navArgs()
     val user : ObservableField<User> = ObservableField()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

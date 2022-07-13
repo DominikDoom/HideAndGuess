@@ -23,7 +23,7 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
     }
 
     fun openUserEditFragment() {
-        val action = UserDetailFragmentDirections.actionOpenUserEditFragment(user.get()!!)
+        val action = UserDetailFragmentDirections.actionUserDetailFragmentToPlayerCustomizingFragment(user.get()!!)
         navController.navigate(action)
     }
 

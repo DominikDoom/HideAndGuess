@@ -26,15 +26,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_register_username"
+                android:id="@+id/et_register_username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionNext|flagNavigateNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,15 +51,16 @@
             app:layout_constraintTop_toBottomOf="@+id/username_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_register_password"
+                android:id="@+id/et_register_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:imeOptions="actionNext|flagNavigateNext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password2"
+            android:id="@+id/passwordConfirm"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,10 +74,11 @@
             app:layout_constraintTop_toBottomOf="@+id/password1">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_register_password_confirm"
+                android:id="@+id/et_register_pass_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,12 +88,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="registrieren"
+            android:text="Registrieren"
             android:onClick="@{() -> context.register()}"
+            android:enabled="@{!etRegisterUsername.text.toString().trim().empty &amp;&amp; !etRegisterPass.text.toString().trim().empty &amp;&amp; !etRegisterPassConfirm.text.toString().trim().empty}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password2" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordConfirm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
