@@ -3,6 +3,7 @@ package de.thm.mobiletech.hideandguess.stomp
 import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
+import de.thm.mobiletech.hideandguess.rest.UserAuth
 import io.reactivex.CompletableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,7 +16,7 @@ import ua.naiksoftware.stomp.StompClient
  * @param auth The authentication token to send with every request. Identifies the user.
  *        Can be created with [StompAuth.encode]
  * */
-class StompClientHandler(auth: StompAuth) {
+class StompClientHandler(auth: UserAuth) {
 
     private val url = "http://192.168.178.42:8080/example-endpoint"
     private val mStompClient: StompClient
