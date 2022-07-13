@@ -25,7 +25,7 @@ class User() : Parcelable{
 
     constructor(username: String) : this() {
         this.username = username
-1    }
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(username)

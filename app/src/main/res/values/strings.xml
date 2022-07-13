@@ -2,6 +2,14 @@
     <string name="app_name">HideAndGuess</string>
 
     <string name="reset">Reset</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="usernameHint">Benutzername</string>
+    <string name="passwordHint">Passwort</string>
+    <string name="createAccount">Noch kein Konto?</string>
+    <string name="login">Anmelden</string>
+    <string name="confirmPasswordHint">Passwort bestätigen</string>
+    <string name="register">Registrieren</string>
+    <string name="createRoom">Raum erstellen</string>
+    <string name="joinRoom">Raum beitreten</string>
+    <string name="showStats">Statistiken</string>
+
 </resources>

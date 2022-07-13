@@ -20,32 +20,49 @@
             style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:text="Raum erstellen"
-            android:textSize="24sp"
-            app:icon="@android:drawable/ic_menu_add"
+            android:layout_marginBottom="10dp"
             android:onClick="@{() -> context.createGame()}"
+            android:text="@string/createRoom"
+            android:textSize="24sp"
+            app:icon="@drawable/ic_baseline_add_circle_outline_24"
             app:iconSize="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button_join_game"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
             android:id="@+id/button_join_game"
             style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Raum beitreten"
-            android:textSize="24sp"
+            android:layout_marginBottom="10dp"
             android:onClick="@{() -> context.joinGame()}"
-            app:icon="@android:drawable/ic_menu_send"
+            android:text="@string/joinRoom"
+            android:textSize="24sp"
+            app:icon="@drawable/ic_baseline_send_24"
             app:iconSize="30dp"
+            app:layout_constraintBottom_toTopOf="@id/button_stats"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_create_game" />
+
+        <Button
+            android:id="@+id/button_stats"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> context.showStats()}"
+            android:text="@string/showStats"
+            android:textSize="24sp"
+            app:icon="@drawable/ic_baseline_info_24"
+            app:iconSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_join_game" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
