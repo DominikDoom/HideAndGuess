@@ -22,13 +22,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/amongus_player_blue" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
             android:id="@+id/button"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:onClick="@{() -> context.forwardHair()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player"
             app:layout_constraintTop_toTopOf="@+id/image_customizing_player" />
@@ -37,6 +37,7 @@
             android:id="@+id/button4"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:onClick="@{() -> context.backwardHair()}"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_customizing_player" />
@@ -45,6 +46,7 @@
             android:id="@+id/button5"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:onClick="@{() -> context.backwardClothes()}"
             app:layout_constraintBottom_toBottomOf="@+id/image_customizing_player"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent" />
@@ -53,7 +55,7 @@
             android:id="@+id/button_player_color_backward"
             android:layout_width="40dp"
             android:layout_height="60dp"
-            android:onClick="@{() -> context.backwardPlayerColor()}"
+            android:onClick="@{() -> context.backwardFaces()}"
             app:layout_constraintBottom_toTopOf="@+id/button5"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +66,7 @@
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:layout_marginBottom="8dp"
+            android:onClick="@{() -> context.forwardClothes()}"
             app:layout_constraintBottom_toBottomOf="@+id/image_customizing_player"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player" />
@@ -72,7 +75,7 @@
             android:id="@+id/button_player_color_forward"
             android:layout_width="40dp"
             android:layout_height="60dp"
-            android:onClick="@{() -> context.forwardPlayerColor()}"
+            android:onClick="@{() -> context.forwardFaces()}"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player"
