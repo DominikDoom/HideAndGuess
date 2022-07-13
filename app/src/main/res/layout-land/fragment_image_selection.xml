@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="context"
+            type="de.thm.mobiletech.hideandguess.ImageSelectionFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/label_select_image"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/firstImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{() -> context.selectImage(0)}"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/contentDescription_first"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/secondImg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/secondImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{() -> context.selectImage(1)}"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/contentDescription_second"
+            app:layout_constraintBottom_toBottomOf="@+id/firstImg"
+            app:layout_constraintEnd_toStartOf="@+id/thirdImg"
+            app:layout_constraintStart_toEndOf="@+id/firstImg"
+            app:layout_constraintTop_toTopOf="@+id/firstImg"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/thirdImg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{() -> context.selectImage(2)}"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/contentDescription_third"
+            app:layout_constraintBottom_toBottomOf="@+id/firstImg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/secondImg"
+            app:layout_constraintTop_toTopOf="@+id/firstImg"
+            tools:src="@tools:sample/avatars" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -100,8 +100,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_lobbyFragment_to_drawBlurFragment"
-            app:destination="@id/drawBlurFragment"
+            android:id="@+id/action_lobbyFragment_to_imageSelectionFragment"
+            app:destination="@id/imageSelectionFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -133,8 +133,8 @@
         android:label="GuessFragment"
         tools:layout="@layout/fragment_guess">
         <action
-            android:id="@+id/action_guessFragment_to_drawBlurFragment"
-            app:destination="@id/drawBlurFragment"
+            android:id="@+id/action_guessFragment_to_imageSelectionFragment"
+            app:destination="@id/imageSelectionFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -148,5 +148,18 @@
         <argument
             android:name="user"
             app:argType="de.thm.mobiletech.hideandguess.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageSelectionFragment"
+        android:name="de.thm.mobiletech.hideandguess.ImageSelectionFragment"
+        android:label="ImageSelectionFragment"
+        tools:layout="@layout/fragment_image_selection">
+        <action
+            android:id="@+id/action_imageSelectionFragment_to_drawBlurFragment"
+            app:destination="@id/drawBlurFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

@@ -11,5 +11,9 @@
     <string name="createRoom">Raum erstellen</string>
     <string name="joinRoom">Raum beitreten</string>
     <string name="showStats">Statistiken</string>
+    <string name="label_select_image">Bild zum Verdecken auswählen</string>
+    <string name="contentDescription_first">Das erste Bild</string>
+    <string name="contentDescription_second">Das zweite Bild</string>
+    <string name="contentDescription_third">Das dritte Bild</string>
 
 </resources>
