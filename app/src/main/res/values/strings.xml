@@ -17,5 +17,6 @@
     <string name="contentDescription_third">Das dritte Bild</string>
     <string name="start">Starten</string>
     <string name="lobbyCodeHint">Lobby-Code eingeben…</string>
+    <string name="lobbyMaxPlayersHint">Maximale Spielerzahl</string>
 
 </resources>

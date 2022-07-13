@@ -37,7 +37,18 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
     }
 
     fun createGame() {
+        val v: View = layoutInflater.inflate(R.layout.dialog_create_lobby, null)
 
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle("Lobby erstellen")
+            .setView(v)
+            .setPositiveButton("Erstellen") { _, _ ->
+                val id = v.findViewById<TextInputEditText>(R.id.et_lobby_max_players)
+                    .text.toString().toInt()
+                //StompClientHandler.create(args.user.username, args.user.password, id)
+            }
+            .setCancelable(true)
+            .show()
     }
 
     fun showStats() {
