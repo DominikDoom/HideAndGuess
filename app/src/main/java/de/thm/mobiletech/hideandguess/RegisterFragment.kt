@@ -31,7 +31,7 @@ class RegisterFragment : DataBindingFragment<FragmentRegisterBinding>(R.layout.f
                 is Result.HttpCode -> {
                     when (result.code) {
                         201 -> {
-                            val user = User(username)
+                            val user = User(username, password)
                             val action = RegisterFragmentDirections.actionRegisterFragmentToMainMenuFragment(user)
                             navController.navigate(action)
                         }

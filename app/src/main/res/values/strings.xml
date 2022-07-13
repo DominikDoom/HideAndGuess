@@ -16,5 +16,6 @@
     <string name="contentDescription_second">Das zweite Bild</string>
     <string name="contentDescription_third">Das dritte Bild</string>
     <string name="start">Starten</string>
+    <string name="lobbyCodeHint">Lobby-Code eingeben…</string>
 
 </resources>

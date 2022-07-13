@@ -23,6 +23,11 @@ class User() : Parcelable{
         this.image = image
     }
 
+    constructor(username: String, password: String) : this() {
+        this.username = username
+        this.password = password
+    }
+
     constructor(username: String) : this() {
         this.username = username
     }

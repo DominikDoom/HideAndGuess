@@ -29,7 +29,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>(R.layout.fragmen
                 is Result.HttpCode -> {
                     when(result.code) {
                         200 -> {
-                            val user = User(username)
+                            val user = User(username, password)
                             val action = LoginFragmentDirections.actionLoginFragmentToMainMenuFragment(user)
                             navController.navigate(action)
                         }
