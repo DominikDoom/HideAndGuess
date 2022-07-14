@@ -105,10 +105,9 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         (requireActivity() as MainActivity).hideProgressDialog()
 
         if (painter.username == args.user.username) {
-            navController.navigate(R.id.action_lobbyFragment_to_imageSelectionFragment)
+            val action = LobbyFragmentDirections.actionLobbyFragmentToImageSelectionFragment(lobbyId)
+            navController.navigate(action)
         } else {
-            // val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
-            // navController.navigate(action)
             (requireActivity() as MainActivity).showOtherPaintingDialog(painter.username)
         }
     }
