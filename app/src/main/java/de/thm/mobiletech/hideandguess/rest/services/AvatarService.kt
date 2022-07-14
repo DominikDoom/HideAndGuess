@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import de.thm.mobiletech.hideandguess.Avatar
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
+import de.thm.mobiletech.hideandguess.rest.escape
 
 suspend fun RestClient.getAvatar(): Result<String> {
     return try {
@@ -14,8 +15,15 @@ suspend fun RestClient.getAvatar(): Result<String> {
 }
 
 suspend fun RestClient.postAvatar(avatar: Avatar): Result<Int> {
+
+    val body = """{
+        "indexHair": "${avatar.indexHair}",
+        "indexFace":"${avatar.indexFace}",
+        "indexClothes": "${avatar.indexClothes}"
+        }""".trimIndent().replace("\n", "")
+
     return try {
-        postRequest("avatar", Gson().toJson(avatar))
+        postRequest("avatar", body)
     } catch (e: Exception) {
         Result.Error(e)
     }
