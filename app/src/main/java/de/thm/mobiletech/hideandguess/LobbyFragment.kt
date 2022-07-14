@@ -78,7 +78,15 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
             }
 
             val result = defer.await()
+
+            val oldList = userList
+
+            userList.clear()
             userList.addAll(result!!.lobbyPlayers)
+
+            if (oldList == userList)
+                return@launch
+
             binding.recyclerViewUser.adapter?.notifyDataSetChanged()
         }
     }
