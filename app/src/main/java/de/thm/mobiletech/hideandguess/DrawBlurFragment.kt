@@ -67,7 +67,7 @@ class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.f
                     when (result.code) {
                         200 -> {
                             val action =
-                                DrawBlurFragmentDirections.actionDrawBlurFragmentToGuessFragment()
+                                DrawBlurFragmentDirections.actionDrawBlurFragmentToGuessFragment(args.lobbyId)
                             navController.navigate(action)
                         }
                         else -> {
