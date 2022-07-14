@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/titanone"
-        android:text="@{context.user.username}"
         android:textColor="@color/black"
         android:textSize="30dp"
+        android:text="@{context.user.username}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -47,11 +47,13 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/example_user_image1" />
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/layout" />
 
 
     </com.google.android.material.card.MaterialCardView>
@@ -60,7 +62,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -75,7 +77,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="gewonnene Runden"
+            android:text="@string/statisticRoundsWon"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -86,7 +88,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="gespielte Runden"
+            android:text="@string/statisticRoundsLost"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -97,7 +99,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="erfolgreich geraten"
+            android:text="@string/statisticGuessedRight"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -108,7 +110,18 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="erfolgreich radiert"
+            android:text="@string/statisticGuessedWrong"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/userStats5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/titanone"
+            android:text="@string/statisticPointsEarned"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -131,7 +144,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="10"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -142,7 +155,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="213"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -153,7 +166,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="2"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -164,7 +177,18 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="3"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/userStats5Num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/titanone"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
