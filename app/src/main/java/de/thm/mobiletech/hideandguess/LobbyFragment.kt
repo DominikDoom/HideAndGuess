@@ -13,13 +13,8 @@ import de.thm.mobiletech.hideandguess.databinding.FragmentLobbyBinding
 import de.thm.mobiletech.hideandguess.rest.LobbyState
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
-import de.thm.mobiletech.hideandguess.rest.services.getAvatar
 import de.thm.mobiletech.hideandguess.rest.services.lobbyInfo
-import de.thm.mobiletech.hideandguess.rest.services.postAvatar
-import de.thm.mobiletech.hideandguess.util.DataBindingFragment
-import de.thm.mobiletech.hideandguess.util.hideProgressDialog
-import de.thm.mobiletech.hideandguess.util.showError
-import de.thm.mobiletech.hideandguess.util.showProgressDialog
+import de.thm.mobiletech.hideandguess.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -62,6 +57,8 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
             startGame()
         }
 
+        requireActivity().title = "Lobby $lobbyId"
+
         mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
             override fun run() {
@@ -73,8 +70,10 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
     }
 
     override fun onPause() {
-        super.onPause()
+        requireActivity().title = "HideAndGuess"
         mainHandler.removeCallbacksAndMessages(null)
+
+        super.onPause()
     }
 
     private fun startGame() {
@@ -93,6 +92,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
                             "LobbyFragment",
                             "Das Spiel konnte nicht gestartet werden"
                         )
+                        (requireActivity() as MainActivity).hideProgressDialog()
                     }
                 }
             } else {
@@ -111,6 +111,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         } else {
             // val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
             // navController.navigate(action)
+            (requireActivity() as MainActivity).showOtherPaintingDialog(painter.username)
         }
     }
 
@@ -122,6 +123,9 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
             }
 
             else -> {
+                if (activity == null) {
+                    return null
+                }
                 requireActivity().showError(
                     "LobbyFragment",
                     "Something went wrong while getting the lobby info"
@@ -163,9 +167,12 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         if ((lastLobbyState == null || lastLobbyState == LobbyState.NOT_IN_GAME) && lobbyState == LobbyState.PAINTING_CHOOSE) {
             requestPainter()
         } else if (lastLobbyState == lobbyState) {
-            Log.d("LobbyFragment", "LobbyFragment: Lobby state unchanged")
-        } else {
-            Log.d("LobbyFragment", "LobbyFragment: Lobby state changed")
+            // do nothing
+        } else if (lastLobbyState == LobbyState.PAINTING_CHOOSE && lobbyState == LobbyState.PAINTING) {
+            // do nothing
+        } else if (lastLobbyState == LobbyState.PAINTING && lobbyState == LobbyState.GUESSING) {
+            val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
+            navController.navigate(action)
         }
 
         lastLobbyState = lobbyState

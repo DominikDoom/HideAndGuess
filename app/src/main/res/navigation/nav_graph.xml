@@ -162,6 +162,11 @@
         android:name="de.thm.mobiletech.hideandguess.ImageSelectionFragment"
         android:label="ImageSelectionFragment"
         tools:layout="@layout/fragment_image_selection">
+
+        <argument
+            android:name="lobbyId"
+            app:argType="integer" />
+        
         <action
             android:id="@+id/action_imageSelectionFragment_to_drawBlurFragment"
             app:destination="@id/drawBlurFragment"

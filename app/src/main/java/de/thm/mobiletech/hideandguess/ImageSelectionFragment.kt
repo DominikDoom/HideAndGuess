@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -15,6 +16,7 @@ import de.thm.mobiletech.hideandguess.databinding.FragmentImageSelectionBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.getImageOptions
+import de.thm.mobiletech.hideandguess.rest.services.submitPaintingChoice
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 import de.thm.mobiletech.hideandguess.util.showError
 import kotlinx.coroutines.async
@@ -29,6 +31,8 @@ class ImageSelectionFragment :
 
     private var imageOptions: Map<String, List<String>> = mutableMapOf()
     private var lastQuery: String? = null
+
+    private val args: ImageSelectionFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,10 +112,27 @@ class ImageSelectionFragment :
             else -> throw IllegalArgumentException("Index must be 0, 1 or 2")
         }
 
-        val action =
-            ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(
-                selectedUrl
-            )
-        navController.navigate(action)
+        Log.d("ImageSelectionFragment", "selectedUrl: $selectedUrl")
+
+        submitPaintingChoice(selectedUrl)
+    }
+
+    private fun submitPaintingChoice(selectedUrl: String) {
+        lifecycleScope.launch {
+            val defer = async { RestClient.submitPaintingChoice(selectedUrl, args.lobbyId) }
+            when (defer.await()) {
+                is Result.Success -> {
+                    val action =
+                        ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl)
+                    navController.navigate(action)
+                }
+                else -> {
+                    requireActivity().showError(
+                        "LobbyFragment",
+                        "Something went wrong while getting the lobby info"
+                    )
+                }
+            }
+        }
     }
 }

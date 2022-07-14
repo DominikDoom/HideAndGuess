@@ -69,7 +69,6 @@ object RestClient {
     }
 
     suspend fun postRequestWithReturn(endpoint: String, body : String? = null) : Result<String?> {
-        Log.d("RestClient", "postRequestWithReturn: $body")
         return withContext(Dispatchers.IO) {
             val url = URL(URL + endpoint)
             with(url.openConnection() as HttpURLConnection) {
