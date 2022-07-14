@@ -32,7 +32,6 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as MainActivity).showProgressDialog()
         getAvatar()
-        (requireActivity() as MainActivity).hideProgressDialog()
     }
 
     override fun setBindingContext() {
@@ -148,6 +147,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
                     requireActivity().showError(MainMenuFragment.TAG,"Fetching Avatar failed due to unknown reason")
                 }
             }
+            (requireActivity() as MainActivity).hideProgressDialog()
         }
     }
 

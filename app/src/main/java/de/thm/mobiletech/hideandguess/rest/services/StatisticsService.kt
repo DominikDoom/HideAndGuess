@@ -3,9 +3,9 @@ package de.thm.mobiletech.hideandguess.rest.services
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 
-suspend fun RestClient.getStatistics(): Result<String> {
+suspend fun RestClient.getStatistics(username: String): Result<String> {
     return try {
-        getRequest("statistics")
+        getRequest("statistics/$username")
     } catch (e: Exception) {
         Result.Error(e)
     }

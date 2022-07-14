@@ -125,6 +125,9 @@
         <argument
             android:name="user"
             app:argType="de.thm.mobiletech.hideandguess.User" />
+        <argument
+            android:name="self"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_userDetailFragment_to_playerCustomizingFragment"
             app:destination="@id/playerCustomizingFragment"
@@ -140,6 +143,11 @@
         android:name="de.thm.mobiletech.hideandguess.GuessFragment"
         android:label="GuessFragment"
         tools:layout="@layout/fragment_guess">
+
+        <argument
+            android:name="lobbyId"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_guessFragment_to_imageSelectionFragment"
             app:destination="@id/imageSelectionFragment"

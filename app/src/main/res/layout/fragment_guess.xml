@@ -37,10 +37,12 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputGuess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your guess..."
                 android:imeOptions="actionSend" />
+
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -13,6 +13,7 @@ import de.thm.mobiletech.hideandguess.databinding.FragmentLobbyBinding
 import de.thm.mobiletech.hideandguess.rest.LobbyState
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
+import de.thm.mobiletech.hideandguess.rest.services.getSynonyms
 import de.thm.mobiletech.hideandguess.rest.services.lobbyInfo
 import de.thm.mobiletech.hideandguess.util.*
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         binding.recyclerViewUser.layoutManager = GridLayoutManager(context, 2)
 
         binding.recyclerViewUser.adapter = UserAdapter(userList, onClick = {
-            val action = LobbyFragmentDirections.actionOpenUserDetailFragment(it)
+            val action = LobbyFragmentDirections.actionOpenUserDetailFragment(it, it.username == args.user.username)
             navController.navigate(action)
         }, resources)
 
@@ -175,7 +176,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         } else if (lastLobbyState == LobbyState.PAINTING && lobbyState == LobbyState.GUESSING) {
             lastLobbyState = lobbyState
             (requireActivity() as MainActivity).hideOtherPaintingDialog()
-            val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
+            val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment(lobbyId)
             navController.navigate(action)
         }
     }

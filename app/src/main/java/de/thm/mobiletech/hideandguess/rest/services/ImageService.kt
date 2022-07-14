@@ -10,3 +10,11 @@ suspend fun RestClient.getImageOptions(): Result<String?> {
         Result.Error(e)
     }
 }
+
+suspend fun RestClient.getSynonyms(lobbyId: Int): Result<String> {
+    return try {
+        getRequest("synonyms/$lobbyId")
+    } catch (e: Exception) {
+        Result.Error(e)
+    }
+}

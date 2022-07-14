@@ -1,9 +1,11 @@
 package de.thm.mobiletech.hideandguess
 
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
 import de.thm.mobiletech.hideandguess.databinding.FragmentLoginBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
+import de.thm.mobiletech.hideandguess.rest.services.getSynonyms
 import de.thm.mobiletech.hideandguess.rest.services.login
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 import de.thm.mobiletech.hideandguess.util.showError

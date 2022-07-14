@@ -196,7 +196,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageViewEdit"
+        android:id="@+id/imageViewBrushButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"

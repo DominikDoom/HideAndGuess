@@ -2,8 +2,10 @@ package de.thm.mobiletech.hideandguess
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isInvisible
 import androidx.databinding.ObservableField
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -25,11 +27,17 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        user.set(args.user)
         (requireActivity() as MainActivity).showProgressDialog()
-        setAvatar()
-        setStatistics()
-        (requireActivity() as MainActivity).hideProgressDialog()
+        user.set(args.user)
+        if (!args.self) {
+            binding.imageViewBrushButton.isInvisible = true
+        }
+        getStatistics()
+        if (args.user.indexFace == 0 && args.user.indexHair == 0 && args.user.indexClothes == 0) {
+            setAvatar()
+        } else {
+            Avatar.drawPlayerImage(binding.imageView, resources, args.user.indexHair, args.user.indexFace, args.user.indexClothes)
+        }
     }
 
     override fun setBindingContext() {
@@ -41,9 +49,9 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
         navController.navigate(action)
     }
 
-    private fun setStatistics() {
+    private fun getStatistics() {
         lifecycleScope.launch {
-            val defer = async { RestClient.getStatistics() }
+            val defer = async { RestClient.getStatistics(args.user.username) }
 
             when (val result = defer.await()) {
                 is Result.Success -> {
@@ -67,6 +75,7 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
                     requireActivity().showError(MainMenuFragment.TAG,"Lobby creation failed due to unknown reason")
                 }
             }
+            (requireActivity() as MainActivity).hideProgressDialog()
         }
     }
 

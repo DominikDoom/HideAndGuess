@@ -115,7 +115,7 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
     }
 
     fun showStats() {
-        val action = MainMenuFragmentDirections.actionMainMenuFragmentToUserDetailFragment(args.user)
+        val action = MainMenuFragmentDirections.actionMainMenuFragmentToUserDetailFragment(args.user, true)
         navController.navigate(action)
     }
 
