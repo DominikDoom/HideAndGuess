@@ -24,7 +24,7 @@ class BlurDrawView : AppCompatImageView {
     private val radius = 100f
 
     // The Points to draw circles on
-    private val points = arrayListOf<PointF>()
+    val points = arrayListOf<PointF>()
 
     // Inverse matrix to scale the canvas operations back to the bitmap
     private val inverse = Matrix()

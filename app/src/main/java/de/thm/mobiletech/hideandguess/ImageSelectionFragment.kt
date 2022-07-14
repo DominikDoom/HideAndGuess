@@ -122,7 +122,7 @@ class ImageSelectionFragment :
                     when (result.code) {
                         200 -> {
                             val action =
-                                ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl)
+                                ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl, args.lobbyId)
                             navController.navigate(action)
                         }
                         else -> {
