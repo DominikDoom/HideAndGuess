@@ -2,9 +2,9 @@ package de.thm.mobiletech.hideandguess
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import de.thm.mobiletech.hideandguess.databinding.FragmentDrawBlurBinding
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 
@@ -14,7 +14,6 @@ import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.fragment_draw_blur) {
 
     private val args: DrawBlurFragmentArgs by navArgs() // Get SafeArgs from Navigation
-    val username : ObservableField<String> = ObservableField()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,8 +24,7 @@ class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.f
             binding.multiplierLabel.text = "Current multiplier: $formattedMult"
         }
 
-        // Update username with args
-        username.set(args.username)
+        Glide.with(this).load(args.chosenUrl).into(binding.blurDrawView)
     }
 
     override fun setBindingContext() {
