@@ -128,16 +128,26 @@ class ImageSelectionFragment :
 
         lifecycleScope.launch {
             val defer = async { RestClient.submitPaintingChoice(selectedQuery, args.lobbyId) }
-            when (defer.await()) {
-                is Result.Success -> {
-                    val action =
-                        ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl)
-                    navController.navigate(action)
+            when (val result = defer.await()) {
+                is Result.HttpCode -> {
+                    when (result.code) {
+                        200 -> {
+                            val action =
+                                ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl)
+                            navController.navigate(action)
+                        }
+                        else -> {
+                            requireActivity().showError(
+                                "ImageSelectionFragment",
+                                "Something went wrong while submitting the choice"
+                            )
+                        }
+                    }
                 }
                 else -> {
                     requireActivity().showError(
                         "LobbyFragment",
-                        "Something went wrong while getting the lobby info"
+                        "Something went wrong while submitting the choice"
                     )
                 }
             }

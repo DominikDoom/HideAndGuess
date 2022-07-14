@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import de.thm.mobiletech.hideandguess.util.TimerFinishedListener
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +20,10 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBarTimer)
     }
 
-    fun startTimer(time: Int) {
+    fun startTimer(time: Int, callback: TimerFinishedListener) {
+        if (!progressBar!!.isVisible)
+            showTimer()
+
         progressBar?.max = time
         progressBar?.progress = 0
         Timer().schedule(object : TimerTask() {
@@ -27,18 +31,24 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     progressBar?.progress = progressBar?.progress!! + 1
                     if (progressBar?.progress!! >= progressBar?.max!!) {
-                        // SMTH HERE
+                        callback.onTimerFinished()
+                        stopTimer()
                     }
                 }
             }
         }, 0, 1000)
     }
 
-    fun showTimer() {
+    fun TimerTask.stopTimer() {
+        cancel()
+        hideTimer()
+    }
+
+    private fun showTimer() {
         progressBar!!.isVisible = true
     }
 
-    fun hideTimer() {
+    private fun hideTimer() {
         progressBar!!.isInvisible = true
     }
 }
