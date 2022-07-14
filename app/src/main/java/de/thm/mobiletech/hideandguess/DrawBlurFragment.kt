@@ -85,6 +85,7 @@ class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.f
                     )
                 }
             }
+            (requireActivity() as MainActivity).hideProgressDialog()
         }
     }
 }
