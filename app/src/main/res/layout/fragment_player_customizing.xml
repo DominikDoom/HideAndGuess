@@ -14,21 +14,37 @@
         android:layout_height="match_parent"
         tools:context=".PlayerCustomizingFragment">
 
+        <TextView
+            android:id="@+id/textViewUserDetailName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/titanone"
+            android:text="@{context.user.username}"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/image_customizing_player"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/layout"/>
 
         <Button
             android:id="@+id/button"
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:onClick="@{() -> context.forwardHair()}"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player"
             app:layout_constraintTop_toTopOf="@+id/image_customizing_player" />
@@ -37,7 +53,11 @@
             android:id="@+id/button4"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:rotation="180"
             android:onClick="@{() -> context.backwardHair()}"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_customizing_player" />
@@ -46,7 +66,11 @@
             android:id="@+id/button5"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:rotation="180"
             android:onClick="@{() -> context.backwardClothes()}"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_customizing_player"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent" />
@@ -55,7 +79,11 @@
             android:id="@+id/button_player_color_backward"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:rotation="180"
             android:onClick="@{() -> context.backwardFaces()}"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toTopOf="@+id/button5"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +95,9 @@
             android:layout_height="60dp"
             android:layout_marginBottom="8dp"
             android:onClick="@{() -> context.forwardClothes()}"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_customizing_player"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player" />
@@ -76,10 +107,24 @@
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:onClick="@{() -> context.forwardFaces()}"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player"
             app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="124dp"
+            android:layout_height="49dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/save"
+            android:onClick="@{() -> context.save()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

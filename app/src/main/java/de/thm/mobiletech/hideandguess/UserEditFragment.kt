@@ -16,6 +16,7 @@ class UserEditFragment : DataBindingFragment<FragmentUserEditBinding>(R.layout.f
         super.onViewCreated(view, savedInstanceState)
 
         user.set(args.user)
+        println(user.get()?.username)
     }
 
     override fun setBindingContext() {

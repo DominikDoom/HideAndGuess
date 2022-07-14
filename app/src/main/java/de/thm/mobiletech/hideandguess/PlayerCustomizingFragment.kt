@@ -4,12 +4,25 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
+import androidx.databinding.ObservableField
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import de.thm.mobiletech.hideandguess.databinding.FragmentPlayerCustomizingBinding
+import de.thm.mobiletech.hideandguess.rest.RestClient
+import de.thm.mobiletech.hideandguess.rest.Result
+import de.thm.mobiletech.hideandguess.rest.services.Avatar
+import de.thm.mobiletech.hideandguess.rest.services.createLobby
+import de.thm.mobiletech.hideandguess.rest.services.postAvatar
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.showError
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingBinding>(R.layout.fragment_player_customizing) {
 
+    private val args: PlayerCustomizingFragmentArgs by navArgs()
+    val user : ObservableField<User> = ObservableField()
     private var clothes: ArrayList<Int> = ArrayList<Int>(listOf(R.drawable.clothes_1, R.drawable.clothes_2, R.drawable.clothes_3))
     private var hair: ArrayList<Int> = ArrayList<Int>(listOf(R.drawable.hair_1, R.drawable.hair_2, R.drawable.hair_3, R.drawable.hair_4, R.drawable.hair_5, R.drawable.hair_6))
     private var faces: ArrayList<Int> = ArrayList<Int>(listOf(R.drawable.face_1, R.drawable.face_2, R.drawable.face_3, R.drawable.face_4,  R.drawable.face_5))
@@ -19,6 +32,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
 
     override fun setBindingContext() {
         binding.context = this
+        user.set(args.user)
     }
 
     fun forwardFaces() {
@@ -81,6 +95,33 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         canvas.drawBitmap(bmHair, rect, rect, null)
 
         binding.imageCustomizingPlayer.setImageBitmap(bmOverlay)
+    }
+
+    fun save() {
+        lifecycleScope.launch {
+            val defer = async { RestClient.postAvatar(Avatar(facesImagesCursor, clothesImagesCursor, hairImagesCursor)) }
+
+            when (val result = defer.await()) {
+                is Result.HttpCode -> {
+                    when(result.code) {
+                        200 -> {
+                            val action = PlayerCustomizingFragmentDirections.actionPlayerCustomizingFragmentToUserDetailFragment(args.user)
+                            navController.navigate(action)
+                        }
+                        500 -> requireActivity().showError(MainMenuFragment.TAG, "Internal Server Error")
+                        else -> requireActivity().showError(MainMenuFragment.TAG, "Unknown Error")
+                    }
+                }
+                is Result.Error -> {
+                    requireActivity().showError(MainMenuFragment.TAG,"Saving player avatar failed", result.exception)
+                }
+                else -> {
+                    requireActivity().showError(MainMenuFragment.TAG,"Saving player avatar failed due to unknown reason")
+                }
+            }
+        }
+
+
     }
 
 }

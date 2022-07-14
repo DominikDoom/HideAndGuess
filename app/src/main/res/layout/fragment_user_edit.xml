@@ -29,18 +29,21 @@
 
         <ImageView
             android:id="@+id/image_customizing_player"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/example_user_image1"/>
+            android:src="@drawable/layout"/>
 
         <Button
             android:id="@+id/button"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player"
             app:layout_constraintTop_toTopOf="@+id/image_customizing_player" />
@@ -49,6 +52,10 @@
             android:id="@+id/button4"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:rotation="180"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_customizing_player" />
@@ -57,6 +64,10 @@
             android:id="@+id/button5"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:rotation="180"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_customizing_player"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent" />
@@ -65,6 +76,10 @@
             android:id="@+id/button_player_color_backward"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            android:rotation="180"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toTopOf="@+id/button5"
             app:layout_constraintEnd_toStartOf="@+id/image_customizing_player"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +90,9 @@
             android:layout_width="40dp"
             android:layout_height="60dp"
             android:layout_marginBottom="8dp"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/image_customizing_player"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player" />
@@ -83,6 +101,9 @@
             android:id="@+id/button_player_color_forward"
             android:layout_width="40dp"
             android:layout_height="60dp"
+            app:icon="@drawable/ic_baseline_play_arrow_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_customizing_player"

@@ -9,7 +9,8 @@ import com.google.android.material.textfield.TextInputEditText
 import de.thm.mobiletech.hideandguess.databinding.FragmentMainMenuBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
-import de.thm.mobiletech.hideandguess.rest.services.create
+import de.thm.mobiletech.hideandguess.rest.services.createLobby
+import de.thm.mobiletech.hideandguess.rest.services.postAvatar
 import de.thm.mobiletech.hideandguess.stomp.StompClientHandler
 import de.thm.mobiletech.hideandguess.stomp.services.join
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
@@ -65,7 +66,7 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
 
     fun createLobby() {
         lifecycleScope.launch {
-            val defer = async { RestClient.create() }
+            val defer = async { RestClient.createLobby() }
 
             when (val result = defer.await()) {
                 is Result.HttpCode -> {
@@ -74,16 +75,16 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
                             val action = MainMenuFragmentDirections.actionMainMenuFragmentToLobbyFragment()
                             navController.navigate(action)
                         }
-                        403 -> requireActivity().showError(TAG, "This User already has a lobby")
-                        500 -> requireActivity().showError(TAG, "Internal Server Error")
-                        else -> requireActivity().showError(TAG, "Unknown Error")
+                        403 -> requireActivity().showError(MainMenuFragment.TAG, "This User already has a lobby")
+                        500 -> requireActivity().showError(MainMenuFragment.TAG, "Internal Server Error")
+                        else -> requireActivity().showError(MainMenuFragment.TAG, "Unknown Error")
                     }
                 }
                 is Result.Error -> {
-                    requireActivity().showError(TAG,"Lobby creation failed", result.exception)
+                    requireActivity().showError(MainMenuFragment.TAG,"Lobby creation failed", result.exception)
                 }
                 else -> {
-                    requireActivity().showError(TAG,"Lobby creation failed due to unknown reason")
+                    requireActivity().showError(MainMenuFragment.TAG,"Lobby creation failed due to unknown reason")
                 }
             }
         }
