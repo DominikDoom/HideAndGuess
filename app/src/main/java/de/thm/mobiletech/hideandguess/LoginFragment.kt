@@ -8,7 +8,9 @@ import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.getSynonyms
 import de.thm.mobiletech.hideandguess.rest.services.login
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -25,6 +27,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>(R.layout.fragmen
         binding.loginButton.isEnabled = false
 
         lifecycleScope.launch {
+            (requireActivity() as MainActivity).showProgressDialog()
             val defer = async { RestClient.login(username, password) }
 
             when (val result = defer.await()) {
@@ -47,7 +50,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>(R.layout.fragmen
                     requireActivity().showError(TAG,"Login failed due to unknown reason")
                 }
             }
-
+            (requireActivity() as MainActivity).hideProgressDialog()
             binding.loginButton.isEnabled = true
         }
     }

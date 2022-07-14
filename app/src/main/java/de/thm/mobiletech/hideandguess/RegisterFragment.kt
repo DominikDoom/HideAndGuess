@@ -6,7 +6,9 @@ import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.register
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,7 @@ class RegisterFragment : DataBindingFragment<FragmentRegisterBinding>(R.layout.f
         val password = binding.etRegisterPass.text.toString()
 
         binding.registerButton.isEnabled = false
+        (requireActivity() as MainActivity).showProgressDialog()
 
         lifecycleScope.launch {
             val defer = async { RestClient.register(username, password) }
@@ -47,6 +50,7 @@ class RegisterFragment : DataBindingFragment<FragmentRegisterBinding>(R.layout.f
                 }
             }
 
+            (requireActivity() as MainActivity).hideProgressDialog()
             binding.registerButton.isEnabled = true
         }
     }
