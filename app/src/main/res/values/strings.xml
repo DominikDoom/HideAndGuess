@@ -26,6 +26,7 @@
     <string name="statisticPointsEarned">erzielte Punkte</string>
     <string name="save">Speichern</string>
     <string name="contentDescription_avatar">Nutzeravatar</string>
+    <string name="zero">0</string>
 
 
 </resources>
