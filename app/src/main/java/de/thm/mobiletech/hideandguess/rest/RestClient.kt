@@ -10,8 +10,8 @@ import java.net.URL
 @Suppress("BlockingMethodInNonBlockingContext")
 object RestClient {
 
-    private const val URL = "http://192.168.178.42:8080/"
-    // private const val URL = "http://raspberrypi.tq2o4aj1y6ubht9d.myfritz.net:8080/"
+    // private const val URL = "http://192.168.178.42:8080/"
+    private const val URL = "http://raspberrypi.tq2o4aj1y6ubht9d.myfritz.net:8080/"
 
     private lateinit var auth: UserAuth
 
