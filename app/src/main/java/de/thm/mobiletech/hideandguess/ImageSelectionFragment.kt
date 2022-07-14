@@ -53,17 +53,6 @@ class ImageSelectionFragment :
         // Load images from pexels API
         Log.d("ImageSelectionFragment", "Loading images from pexels API")
         loadImages()
-
-        object : CountDownTimer(30000, 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                Log.d("ImageSelectionFragment", "onTick: $millisUntilFinished")
-            }
-
-            override fun onFinish() {
-                Log.d("ImageSelectionFragment", "choosing random image")
-            }
-        }.start()
     }
 
     override fun setBindingContext() {
