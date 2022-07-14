@@ -10,17 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import de.thm.mobiletech.hideandguess.databinding.FragmentImageSelectionBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.getImageOptions
-import de.thm.mobiletech.hideandguess.rest.services.lobbyInfo
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 import de.thm.mobiletech.hideandguess.util.showError
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.lang.reflect.Type
 
 /**
  * A simple [Fragment] subclass.
@@ -28,7 +27,7 @@ import kotlinx.coroutines.withContext
 class ImageSelectionFragment :
     DataBindingFragment<FragmentImageSelectionBinding>(R.layout.fragment_image_selection) {
 
-    private val imageOptions: Map<String, List<String>> = mutableMapOf()
+    private var imageOptions: Map<String, List<String>> = mutableMapOf()
     private var lastQuery: String? = null
 
     override fun onCreateView(
@@ -70,15 +69,13 @@ class ImageSelectionFragment :
         outState.putString("lastQuery", lastQuery)
     }
 
-    data class Payload(val map: Map<String, List<String>>)
-
     private fun loadImages() {
-        var payload: Payload? = null
-
         lifecycleScope.launch {
-            when (val result = RestClient.getImageOptions()) {
+            val defer = async { RestClient.getImageOptions() }
+            when (val result = defer.await()) {
                 is Result.Success -> {
-                    payload = Gson().fromJson(result.data.toString(), Payload::class.java)
+                    val imgMapType: Type = object : TypeToken<Map<String, List<String>>>() {}.type
+                    imageOptions = Gson().fromJson(result.data.toString(), imgMapType)
                 }
 
                 else -> {
@@ -89,16 +86,11 @@ class ImageSelectionFragment :
                 }
             }
 
-
-            Log.d("ImageSelectionFragment", "${payload?.map!!}")
-
-            imageOptions.plus(
-                payload?.map!!
-            )
-
             Log.d("ImageSelectionFragment", "imageOptions: $imageOptions")
 
-            val imageUrls = imageOptions.entries.flatMap { it.value }
+            val imageUrls = imageOptions.keys.toList()
+            Log.d("ImageSelectionFragment", "imageOptions: $imageUrls")
+
             val context = this@ImageSelectionFragment
             Glide.with(context).load(imageUrls[0]).into(binding.firstImg)
             Glide.with(context).load(imageUrls[1]).into(binding.secondImg)
@@ -107,7 +99,7 @@ class ImageSelectionFragment :
     }
 
     fun selectImage(index: Int) {
-        val imageUrls = imageOptions.entries.flatMap { it.value }
+        val imageUrls = imageOptions.keys.toList()
 
         val selectedUrl: String = when (index) {
             0 -> imageUrls[0]
