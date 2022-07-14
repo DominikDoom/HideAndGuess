@@ -1,7 +1,6 @@
 package de.thm.mobiletech.hideandguess
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progressBar = findViewById<ProgressBar>(R.id.progressBarTimer)
+        progressBar = findViewById(R.id.progressBarTimer)
     }
 
     fun startTimer(time: Int) {
