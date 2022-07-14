@@ -18,3 +18,11 @@ suspend fun RestClient.lobbyInfo(lobbyId: Int): Result<String?> {
         Result.Error(e)
     }
 }
+
+suspend fun RestClient.leaveLobby(): Result<Int> {
+    return try {
+        postRequest("leave")
+    } catch (e: Exception) {
+        Result.Error(e)
+    }
+}
