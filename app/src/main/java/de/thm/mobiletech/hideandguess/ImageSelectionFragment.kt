@@ -124,8 +124,10 @@ class ImageSelectionFragment :
     }
 
     private fun submitPaintingChoice(selectedUrl: String) {
+        val selectedQuery = imageOptions[selectedUrl]!!.first()
+
         lifecycleScope.launch {
-            val defer = async { RestClient.submitPaintingChoice(selectedUrl, args.lobbyId) }
+            val defer = async { RestClient.submitPaintingChoice(selectedQuery, args.lobbyId) }
             when (defer.await()) {
                 is Result.Success -> {
                     val action =
