@@ -160,7 +160,14 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
 
     private var lastLobbyState: LobbyState? = null
 
+    private var blocker: Boolean = false
+
     private suspend fun evaluateLobbyState(lobbyState: LobbyState) {
+        if (blocker) {
+            return
+        }
+
+        blocker = true
         if ((lastLobbyState == null || lastLobbyState == LobbyState.NOT_IN_GAME) && lobbyState == LobbyState.PAINTING_CHOOSE) {
             requestPainter()
         } else if (lastLobbyState == lobbyState) {
@@ -174,6 +181,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         }
 
         lastLobbyState = lobbyState
+        blocker = false
     }
 
     data class LobbyInfo(
