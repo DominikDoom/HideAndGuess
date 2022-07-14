@@ -156,9 +156,6 @@
         <argument
             android:name="user"
             app:argType="de.thm.mobiletech.hideandguess.User" />
-        <action
-            android:id="@+id/action_playerCustomizingFragment_to_userDetailFragment"
-            app:destination="@id/userDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/imageSelectionFragment"

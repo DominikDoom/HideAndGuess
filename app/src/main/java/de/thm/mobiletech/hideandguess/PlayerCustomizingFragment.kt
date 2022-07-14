@@ -96,8 +96,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
                 is Result.HttpCode -> {
                     when(result.code) {
                         200 -> {
-                            val action = PlayerCustomizingFragmentDirections.actionPlayerCustomizingFragmentToUserDetailFragment(args.user)
-                            navController.navigate(action)
+                            navController.popBackStack()
                         }
                         500 -> requireActivity().showError(MainMenuFragment.TAG, "Internal Server Error")
                         else -> requireActivity().showError(MainMenuFragment.TAG, "Unknown Error")
