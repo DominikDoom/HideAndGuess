@@ -1,23 +1,32 @@
 package de.thm.mobiletech.hideandguess
 
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import de.thm.mobiletech.hideandguess.databinding.FragmentImageSelectionBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
+import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.getImageOptions
+import de.thm.mobiletech.hideandguess.rest.services.lobbyInfo
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.showError
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * A simple [Fragment] subclass.
  */
-class ImageSelectionFragment : DataBindingFragment<FragmentImageSelectionBinding>(R.layout.fragment_image_selection) {
+class ImageSelectionFragment :
+    DataBindingFragment<FragmentImageSelectionBinding>(R.layout.fragment_image_selection) {
 
     private val imageOptions: Map<String, List<String>> = mutableMapOf()
     private var lastQuery: String? = null
@@ -37,7 +46,19 @@ class ImageSelectionFragment : DataBindingFragment<FragmentImageSelectionBinding
         super.onViewCreated(view, savedInstanceState)
 
         // Load images from pexels API
-        // TODO loadImages()
+        Log.d("ImageSelectionFragment", "Loading images from pexels API")
+        loadImages()
+
+        object : CountDownTimer(30000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                Log.d("ImageSelectionFragment", "onTick: $millisUntilFinished")
+            }
+
+            override fun onFinish() {
+                Log.d("ImageSelectionFragment", "choosing random image")
+            }
+        }.start()
     }
 
     override fun setBindingContext() {
@@ -49,15 +70,33 @@ class ImageSelectionFragment : DataBindingFragment<FragmentImageSelectionBinding
         outState.putString("lastQuery", lastQuery)
     }
 
+    data class Payload(val map: Map<String, List<String>>)
+
     private fun loadImages() {
-        // TODO call our rest backend request for the images
+        var payload: Payload? = null
 
         lifecycleScope.launch {
-            val defer = async { RestClient.getImageOptions() }
+            when (val result = RestClient.getImageOptions()) {
+                is Result.Success -> {
+                    payload = Gson().fromJson(result.data.toString(), Payload::class.java)
+                }
 
-            val result = defer.await()
-            // TODO Parse JSON result to the Map<Query, Urls>
-            //imageOptions.plus()
+                else -> {
+                    requireActivity().showError(
+                        "LobbyFragment",
+                        "Something went wrong while getting the lobby info"
+                    )
+                }
+            }
+
+
+            Log.d("ImageSelectionFragment", "${payload?.map!!}")
+
+            imageOptions.plus(
+                payload?.map!!
+            )
+
+            Log.d("ImageSelectionFragment", "imageOptions: $imageOptions")
 
             val imageUrls = imageOptions.entries.flatMap { it.value }
             val context = this@ImageSelectionFragment
@@ -77,7 +116,10 @@ class ImageSelectionFragment : DataBindingFragment<FragmentImageSelectionBinding
             else -> throw IllegalArgumentException("Index must be 0, 1 or 2")
         }
 
-        val action = ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl)
+        val action =
+            ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(
+                selectedUrl
+            )
         navController.navigate(action)
     }
 }

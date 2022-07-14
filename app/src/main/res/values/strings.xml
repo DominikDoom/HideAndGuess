@@ -12,6 +12,7 @@
     <string name="joinRoom">Raum beitreten</string>
     <string name="showStats">Statistiken</string>
     <string name="label_select_image">Bild zum Verdecken auswählen</string>
+    <string name="contentDescription_gameLogo">Logo des Spiels</string>
     <string name="contentDescription_first">Das erste Bild</string>
     <string name="contentDescription_second">Das zweite Bild</string>
     <string name="contentDescription_third">Das dritte Bild</string>
@@ -24,6 +25,8 @@
     <string name="statisticGuessedWrong">falsch geraten</string>
     <string name="statisticPointsEarned">erzielte Punkte</string>
     <string name="save">Speichern</string>
+    <string name="contentDescription_avatar">Nutzeravatar</string>
+    <string name="zero">0</string>
 
 
 </resources>

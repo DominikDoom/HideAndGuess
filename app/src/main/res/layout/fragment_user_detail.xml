@@ -20,16 +20,15 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/titanone"
         android:textColor="@color/black"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="@{context.user.username}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardViewUser"
+        style="?materialCardViewFilledStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
@@ -49,11 +48,13 @@
             android:id="@+id/imageView"
             android:layout_width="256dp"
             android:layout_height="256dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/layout" />
+            android:contentDescription="@string/contentDescription_avatar"
+            app:srcCompat="@drawable/layout"
+            tools:ignore="ImageContrastCheck" />
 
 
     </com.google.android.material.card.MaterialCardView>
@@ -79,7 +80,7 @@
             android:fontFamily="@font/titanone"
             android:text="@string/statisticRoundsWon"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats2"
@@ -90,7 +91,7 @@
             android:fontFamily="@font/titanone"
             android:text="@string/statisticRoundsLost"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats3"
@@ -101,7 +102,7 @@
             android:fontFamily="@font/titanone"
             android:text="@string/statisticGuessedRight"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats4"
@@ -112,7 +113,7 @@
             android:fontFamily="@font/titanone"
             android:text="@string/statisticGuessedWrong"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats5"
@@ -123,7 +124,7 @@
             android:fontFamily="@font/titanone"
             android:text="@string/statisticPointsEarned"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -144,9 +145,9 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="0"
+            android:text="@string/zero"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats2Num"
@@ -155,9 +156,9 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="0"
+            android:text="@string/zero"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats3Num"
@@ -166,9 +167,9 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="0"
+            android:text="@string/zero"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats4Num"
@@ -177,9 +178,9 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="0"
+            android:text="@string/zero"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/userStats5Num"
@@ -188,9 +189,9 @@
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/titanone"
-            android:text="0"
+            android:text="@string/zero"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
