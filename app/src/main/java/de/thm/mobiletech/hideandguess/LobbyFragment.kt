@@ -171,6 +171,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         } else if (lastLobbyState == LobbyState.PAINTING_CHOOSE && lobbyState == LobbyState.PAINTING) {
             // do nothing
         } else if (lastLobbyState == LobbyState.PAINTING && lobbyState == LobbyState.GUESSING) {
+            (requireActivity() as MainActivity).hideOtherPaintingDialog()
             val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
             navController.navigate(action)
         }
