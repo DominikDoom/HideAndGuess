@@ -85,6 +85,14 @@
         android:label="LobbyFragment"
         tools:layout="@layout/fragment_lobby">
 
+        <argument
+            android:name="user"
+            app:argType="de.thm.mobiletech.hideandguess.User" />
+
+        <argument
+            android:name="lobbyId"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_openUserDetailFragment"
             app:destination="@id/userDetailFragment"

@@ -19,10 +19,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_lobbyCode"
+            android:id="@+id/et_lobby_max_players"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/lobbyCodeHint"
+            android:hint="@string/lobbyMaxPlayersHint"
             android:textColorHint="#757575"
             android:inputType="number"
             tools:ignore="TextContrastCheck" />
