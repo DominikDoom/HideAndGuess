@@ -1,19 +1,21 @@
 package de.thm.mobiletech.hideandguess.rest.services
 
+import com.google.gson.Gson
+import de.thm.mobiletech.hideandguess.Avatar
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 
-suspend fun RestClient.create(): Result<String?> {
+suspend fun RestClient.getAvatar(): Result<String> {
     return try {
-        putRequestWithReturn("lobby")
+        getRequest("avatar")
     } catch (e: Exception) {
         Result.Error(e)
     }
 }
 
-suspend fun RestClient.lobbyInfo(lobbyId: Int): Result<String?> {
+suspend fun RestClient.postAvatar(avatar: Avatar): Result<Int> {
     return try {
-        postRequestWithReturn("lobbyInfo/$lobbyId")
+        postRequest("avatar", Gson().toJson(avatar))
     } catch (e: Exception) {
         Result.Error(e)
     }

@@ -34,6 +34,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:src="@drawable/example_user_image1" />
+            android:src="@drawable/layout" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
