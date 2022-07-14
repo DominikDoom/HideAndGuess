@@ -1,5 +1,6 @@
 package de.thm.mobiletech.hideandguess
 
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -37,7 +38,32 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
             .setPositiveButton("Beitreten") { _, _ ->
                 val id = v.findViewById<TextInputEditText>(R.id.et_lobbyCode)
                     .text.toString().toInt()
-                StompClientHandler.join(args.user.username, args.user.password, id)
+                lifecycleScope.launch {
+                    val defer = async { RestClient.postRequest("join/$id") }
+
+                    when (val result = defer.await()) {
+                        is Result.HttpCode -> {
+                            when(result.code) {
+                                200 -> {
+                                    val action = MainMenuFragmentDirections.actionMainMenuFragmentToLobbyFragment(args.user, id)
+                                    navController.navigate(action)
+                                }
+                                401 -> {
+                                    requireActivity().showError(TAG, "You are not authorized to join this lobby")
+                                }
+                                409 -> requireActivity().showError(TAG, "You can't join this lobby")
+                                else -> requireActivity().showError(TAG, "Unknown Error")
+                            }
+                        }
+                        is Result.Error -> {
+                            requireActivity().showError(TAG,"Lobby join failed", result.exception)
+                        }
+                        else -> {
+                            requireActivity().showError(TAG,"Lobby join failed due to unknown reason")
+                        }
+                    }
+                }
+
             }
             .setCancelable(true)
             .show()
@@ -63,7 +89,7 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
         navController.navigate(action)
     }
 
-    fun createLobby() {
+    private fun createLobby() {
         lifecycleScope.launch {
             val defer = async { RestClient.create() }
 
@@ -71,7 +97,8 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
                 is Result.HttpCode -> {
                     when(result.code) {
                         200 -> {
-                            val action = MainMenuFragmentDirections.actionMainMenuFragmentToLobbyFragment()
+                            // TODO change hardcoded
+                            val action = MainMenuFragmentDirections.actionMainMenuFragmentToLobbyFragment(args.user, 20)
                             navController.navigate(action)
                         }
                         403 -> requireActivity().showError(TAG, "This User already has a lobby")

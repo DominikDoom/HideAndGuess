@@ -1,6 +1,7 @@
 package de.thm.mobiletech.hideandguess
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.navigation.fragment.navArgs

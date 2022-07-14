@@ -10,3 +10,11 @@ suspend fun RestClient.create(): Result<Int> {
         Result.Error(e)
     }
 }
+
+suspend fun RestClient.lobbyInfo(lobbyId: Int): Result<String?> {
+    return try {
+        postRequestWithReturn("lobbyInfo/$lobbyId")
+    } catch (e: Exception) {
+        Result.Error(e)
+    }
+}
