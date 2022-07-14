@@ -10,7 +10,6 @@ import de.thm.mobiletech.hideandguess.databinding.FragmentMainMenuBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.createLobby
-import de.thm.mobiletech.hideandguess.rest.services.postAvatar
 import de.thm.mobiletech.hideandguess.stomp.StompClientHandler
 import de.thm.mobiletech.hideandguess.stomp.services.join
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment

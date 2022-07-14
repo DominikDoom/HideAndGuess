@@ -1,17 +1,16 @@
 package de.thm.mobiletech.hideandguess
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Rect
+import android.os.Bundle
+import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.google.gson.Gson
+import de.thm.mobiletech.hideandguess.Avatar.Companion.drawPlayerImage
 import de.thm.mobiletech.hideandguess.databinding.FragmentPlayerCustomizingBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
-import de.thm.mobiletech.hideandguess.rest.services.Avatar
-import de.thm.mobiletech.hideandguess.rest.services.createLobby
+import de.thm.mobiletech.hideandguess.rest.services.getAvatar
 import de.thm.mobiletech.hideandguess.rest.services.postAvatar
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 import de.thm.mobiletech.hideandguess.util.showError
@@ -23,12 +22,14 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
 
     private val args: PlayerCustomizingFragmentArgs by navArgs()
     val user : ObservableField<User> = ObservableField()
-    private var clothes: ArrayList<Int> = ArrayList<Int>(listOf(R.drawable.clothes_1, R.drawable.clothes_2, R.drawable.clothes_3))
-    private var hair: ArrayList<Int> = ArrayList<Int>(listOf(R.drawable.hair_1, R.drawable.hair_2, R.drawable.hair_3, R.drawable.hair_4, R.drawable.hair_5, R.drawable.hair_6))
-    private var faces: ArrayList<Int> = ArrayList<Int>(listOf(R.drawable.face_1, R.drawable.face_2, R.drawable.face_3, R.drawable.face_4,  R.drawable.face_5))
     private var clothesImagesCursor: Int = 0
     private var facesImagesCursor: Int = 0
     private var hairImagesCursor: Int = 0
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getAvatar()
+    }
 
     override fun setBindingContext() {
         binding.context = this
@@ -36,7 +37,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
     }
 
     fun forwardFaces() {
-        if (facesImagesCursor < faces.size - 1)
+        if (facesImagesCursor < Avatar.faces.size - 1)
             facesImagesCursor++
         else
             facesImagesCursor = 0
@@ -47,12 +48,12 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         if (facesImagesCursor > 0)
             facesImagesCursor--
         else
-            facesImagesCursor = faces.size - 1
+            facesImagesCursor = Avatar.faces.size - 1
         drawPlayerImage()
     }
 
     fun forwardClothes() {
-        if (clothesImagesCursor < clothes.size - 1)
+        if (clothesImagesCursor < Avatar.clothes.size - 1)
             clothesImagesCursor++
         else
             clothesImagesCursor = 0
@@ -63,12 +64,12 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         if (clothesImagesCursor > 0)
             clothesImagesCursor--
         else
-            clothesImagesCursor = clothes.size - 1
+            clothesImagesCursor = Avatar.clothes.size - 1
         drawPlayerImage()
     }
 
     fun forwardHair() {
-        if (hairImagesCursor < hair.size - 1)
+        if (hairImagesCursor < Avatar.hair.size - 1)
             hairImagesCursor++
         else
             hairImagesCursor = 0
@@ -79,22 +80,12 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         if (hairImagesCursor > 0)
             hairImagesCursor--
         else
-            hairImagesCursor = hair.size - 1
+            hairImagesCursor = Avatar.hair.size - 1
         drawPlayerImage()
     }
 
-    fun drawPlayerImage() {
-        val bmClothes = BitmapFactory.decodeResource(resources, clothes[clothesImagesCursor])
-        val bmFace = BitmapFactory.decodeResource(resources, faces[facesImagesCursor])
-        val bmHair = BitmapFactory.decodeResource(resources, hair[hairImagesCursor])
-        val bmOverlay = Bitmap.createBitmap(256, 256, bmClothes.config)
-        val canvas = Canvas(bmOverlay)
-        val rect = Rect(0, 0, 256, 256)
-        canvas.drawBitmap(bmFace, rect, rect, null)
-        canvas.drawBitmap(bmClothes, rect, rect, null)
-        canvas.drawBitmap(bmHair, rect, rect, null)
-
-        binding.imageCustomizingPlayer.setImageBitmap(bmOverlay)
+    private fun drawPlayerImage() {
+        drawPlayerImage(binding.imageCustomizingPlayer, resources, hairImagesCursor, clothesImagesCursor, facesImagesCursor)
     }
 
     fun save() {
@@ -120,8 +111,28 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
                 }
             }
         }
+    }
 
+    private fun getAvatar() {
+        lifecycleScope.launch {
+            val defer = async { RestClient.getAvatar() }
 
+            when (val result = defer.await()) {
+                is Result.Success -> {
+                    var avatar = Gson().fromJson(result.data, Avatar::class.java)
+                    clothesImagesCursor = avatar.indexClothes
+                    facesImagesCursor = avatar.indexFace
+                    hairImagesCursor = avatar.indexHair
+                    drawPlayerImage()
+                }
+                is Result.Error -> {
+                    requireActivity().showError(MainMenuFragment.TAG,"Fetching Avatar failed", result.exception)
+                }
+                else -> {
+                    requireActivity().showError(MainMenuFragment.TAG,"Fetching Avatar failed due to unknown reason")
+                }
+            }
+        }
     }
 
 }

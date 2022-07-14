@@ -1,6 +1,7 @@
 package de.thm.mobiletech.hideandguess.rest.services
 
 import com.google.gson.Gson
+import de.thm.mobiletech.hideandguess.Avatar
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 
@@ -20,9 +21,3 @@ suspend fun RestClient.postAvatar(avatar: Avatar): Result<Int> {
         Result.Error(e)
     }
 }
-
-data class Avatar(
-    val indexFace: Int,
-    val indexClothes: Int,
-    val indexHair: Int
-)

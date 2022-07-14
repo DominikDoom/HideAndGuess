@@ -10,9 +10,7 @@ import com.google.gson.reflect.TypeToken
 import de.thm.mobiletech.hideandguess.databinding.FragmentUserDetailBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
-import de.thm.mobiletech.hideandguess.rest.services.Statistic
-import de.thm.mobiletech.hideandguess.rest.services.Statistics
-import de.thm.mobiletech.hideandguess.rest.services.getStatistics
+import de.thm.mobiletech.hideandguess.rest.services.*
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 import de.thm.mobiletech.hideandguess.util.showError
 import kotlinx.coroutines.async
@@ -26,6 +24,7 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         user.set(args.user)
+        setAvatar()
         setStatistics()
     }
 
@@ -62,6 +61,25 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
                 }
                 else -> {
                     requireActivity().showError(MainMenuFragment.TAG,"Lobby creation failed due to unknown reason")
+                }
+            }
+        }
+    }
+
+    private fun setAvatar() {
+        lifecycleScope.launch {
+            val defer = async { RestClient.getAvatar() }
+
+            when (val result = defer.await()) {
+                is Result.Success -> {
+                    var avatar = Gson().fromJson(result.data, Avatar::class.java)
+                    Avatar.drawPlayerImage(binding.imageView, resources, avatar.indexHair, avatar.indexClothes, avatar.indexFace)
+                }
+                is Result.Error -> {
+                    requireActivity().showError(MainMenuFragment.TAG,"Fetching Avatar failed", result.exception)
+                }
+                else -> {
+                    requireActivity().showError(MainMenuFragment.TAG,"Fetching Avatar failed due to unknown reason")
                 }
             }
         }
