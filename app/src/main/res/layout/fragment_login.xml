@@ -16,13 +16,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/username"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:hint="@string/usernameHint"
-            android:textColorHint="#757575"
             app:layout_constraintBottom_toTopOf="@+id/password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -36,14 +35,13 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="flagNavigateNext|actionNext"
                 android:inputType="text"
-                android:textColorHint="#757575"
                 tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="?attr/textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -63,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:textColorHint="#757575"
                 tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,7 +73,7 @@
             android:fontFamily="@font/alatsi"
             android:onClick="@{() -> context.openRegisterFragment()}"
             android:text="@string/createAccount"
-            android:textColor="#383AAA"
+            android:textColor="?attr/colorAccent"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/loginButton"
             app:layout_constraintStart_toStartOf="@+id/password"
@@ -91,11 +88,12 @@
             android:enabled="@{!etUsername.text.toString().trim().empty &amp;&amp; !etPassword.text.toString().trim().empty}"
             android:onClick="@{() -> context.login()}"
             android:text="@string/login"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
