@@ -12,7 +12,9 @@ import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.*
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -24,8 +26,10 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         user.set(args.user)
+        (requireActivity() as MainActivity).showProgressDialog()
         setAvatar()
         setStatistics()
+        (requireActivity() as MainActivity).hideProgressDialog()
     }
 
     override fun setBindingContext() {

@@ -13,7 +13,9 @@ import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.getAvatar
 import de.thm.mobiletech.hideandguess.rest.services.postAvatar
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -28,7 +30,9 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as MainActivity).showProgressDialog()
         getAvatar()
+        (requireActivity() as MainActivity).hideProgressDialog()
     }
 
     override fun setBindingContext() {
