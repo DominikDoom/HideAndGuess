@@ -18,7 +18,9 @@ import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.getImageOptions
 import de.thm.mobiletech.hideandguess.rest.services.submitPaintingChoice
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
@@ -75,6 +77,8 @@ class ImageSelectionFragment :
 
     private fun loadImages() {
         lifecycleScope.launch {
+            (requireActivity() as MainActivity).showProgressDialog()
+
             val defer = async { RestClient.getImageOptions() }
             when (val result = defer.await()) {
                 is Result.Success -> {
@@ -99,6 +103,8 @@ class ImageSelectionFragment :
             Glide.with(context).load(imageUrls[0]).into(binding.firstImg)
             Glide.with(context).load(imageUrls[1]).into(binding.secondImg)
             Glide.with(context).load(imageUrls[2]).into(binding.thirdImg)
+
+            (requireActivity() as MainActivity).hideProgressDialog()
         }
     }
 

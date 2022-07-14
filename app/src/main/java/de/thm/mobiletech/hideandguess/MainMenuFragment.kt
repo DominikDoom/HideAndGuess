@@ -12,7 +12,9 @@ import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.create
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -37,6 +39,8 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
                 val id = v.findViewById<TextInputEditText>(R.id.et_lobbyCode)
                     .text.toString().toInt()
                 lifecycleScope.launch {
+                    (requireActivity() as MainActivity).showProgressDialog()
+
                     val defer = async { RestClient.postRequest("join/$id") }
 
                     when (val result = defer.await()) {
@@ -97,6 +101,8 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
                             requireActivity().showError(TAG,"Lobby beitreten fehlgeschlagen aufgrund eines unbekannten Fehlers")
                         }
                     }
+
+                    (requireActivity() as MainActivity).hideProgressDialog()
                 }
 
             }
@@ -115,6 +121,7 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
 
     private fun createLobby() {
         lifecycleScope.launch {
+            (requireActivity() as MainActivity).showProgressDialog()
             val defer = async { RestClient.create() }
 
             when (val result = defer.await()) {
@@ -130,6 +137,8 @@ class MainMenuFragment : DataBindingFragment<FragmentMainMenuBinding>(R.layout.f
                     requireActivity().showError(TAG,"Lobby Erstellung fehlgeschlagen aufgrund eines unbekannten Fehlers")
                 }
             }
+
+            (requireActivity() as MainActivity).hideProgressDialog()
         }
     }
 
