@@ -3,9 +3,9 @@ package de.thm.mobiletech.hideandguess.rest.services
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 
-suspend fun RestClient.getImageOptions(): Result<String> {
+suspend fun RestClient.getImageOptions(): Result<String?> {
     return try {
-        TODO("Get image options from REST backend")
+        postRequestWithReturn("images")
     } catch (e: Exception) {
         Result.Error(e)
     }

@@ -5,19 +5,23 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import de.thm.mobiletech.hideandguess.databinding.FragmentLobbyBinding
+import de.thm.mobiletech.hideandguess.rest.LobbyState
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 import de.thm.mobiletech.hideandguess.rest.services.lobbyInfo
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
+import de.thm.mobiletech.hideandguess.util.hideProgressDialog
 import de.thm.mobiletech.hideandguess.util.showError
+import de.thm.mobiletech.hideandguess.util.showProgressDialog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.properties.Delegates
 
 class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragment_lobby) {
@@ -32,12 +36,16 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
 
     private lateinit var mainHandler: Handler
 
+    private var round: Int = 1
+
     override fun setBindingContext() {
         binding.context = this
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.extendedFab.isEnabled = false
 
         lobbyId = args.lobbyId
 
@@ -47,6 +55,10 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
             val action = LobbyFragmentDirections.actionOpenUserDetailFragment(it)
             navController.navigate(action)
         })
+
+        binding.extendedFab.setOnClickListener {
+            startGame()
+        }
 
         mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
@@ -61,6 +73,43 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
     override fun onPause() {
         super.onPause()
         mainHandler.removeCallbacksAndMessages(null)
+    }
+
+    private fun startGame() {
+        (requireActivity() as MainActivity).showProgressDialog()
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.Default) {
+                RestClient.postRequest("start/$lobbyId")
+            }
+            if (result is Result.HttpCode) {
+                when (result.code) {
+                    200 -> {
+                        requestPainter()
+                    }
+                    else -> {
+                        requireActivity().showError(
+                            "LobbyFragment",
+                            "Das Spiel konnte nicht gestartet werden"
+                        )
+                    }
+                }
+            } else {
+                requireActivity().showError("LobbyFragment", "Spiel konnte nicht gestartet werden")
+            }
+        }
+    }
+
+    private suspend fun requestPainter() {
+        val lobbyInfo = getLobbyInfo()
+        val painter = lobbyInfo!!.lobbyPlayers[round % lobbyInfo.lobbyPlayers.size]
+        (requireActivity() as MainActivity).hideProgressDialog()
+
+        if (painter.username == args.user.username) {
+            navController.navigate(R.id.action_lobbyFragment_to_imageSelectionFragment)
+        } else {
+            // val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
+            // navController.navigate(action)
+        }
     }
 
     private suspend fun getLobbyInfo(): LobbyInfo? {
@@ -80,7 +129,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
     }
 
     private fun updateLobbyList() {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             val defer = async {
                 getLobbyInfo()
             }
@@ -96,14 +145,34 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
                 binding.recyclerViewUser.adapter?.notifyDataSetChanged()
             }
 
+            lobbyOwner = result.lobbyOwner
+
             binding.extendedFab.isEnabled = result.lobbyOwner.username == args.user.username
+                    && result.lobbyPlayers.size >= 2
+
+            evaluateLobbyState(result.lobbyState)
         }
+    }
+
+    private var lastLobbyState: LobbyState? = null
+
+    private suspend fun evaluateLobbyState(lobbyState: LobbyState) {
+        if ((lastLobbyState == null || lastLobbyState == LobbyState.NOT_IN_GAME) && lobbyState == LobbyState.PAINTING_CHOOSE) {
+            requestPainter()
+        } else if (lastLobbyState == lobbyState) {
+            Log.d("LobbyFragment", "LobbyFragment: Lobby state unchanged")
+        } else {
+            Log.d("LobbyFragment", "LobbyFragment: Lobby state changed")
+        }
+
+        lastLobbyState = lobbyState
     }
 
     data class LobbyInfo(
         val lobbyId: Long,
         val maxPlayers: Int,
         val lobbyOwner: User,
-        val lobbyPlayers: MutableList<User>
+        val lobbyPlayers: MutableList<User>,
+        val lobbyState: LobbyState
     )
 }
