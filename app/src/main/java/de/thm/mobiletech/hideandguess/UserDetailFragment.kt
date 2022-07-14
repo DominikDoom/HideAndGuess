@@ -1,7 +1,6 @@
 package de.thm.mobiletech.hideandguess
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.lifecycleScope
@@ -74,7 +73,7 @@ class UserDetailFragment : DataBindingFragment<FragmentUserDetailBinding>(R.layo
             when (val result = defer.await()) {
                 is Result.Success -> {
                     var avatar = Gson().fromJson(result.data, Avatar::class.java)
-                    Avatar.drawPlayerImage(binding.imageView, resources, avatar.indexHair, avatar.indexClothes, avatar.indexFace)
+                    Avatar.drawPlayerImage(binding.imageView, resources, avatar.indexHair, avatar.indexFace, avatar.indexClothes)
                 }
                 is Result.Error -> {
                     requireActivity().showError(MainMenuFragment.TAG,"Fetching Avatar failed", result.exception)

@@ -13,7 +13,9 @@ import com.google.gson.Gson
 import de.thm.mobiletech.hideandguess.databinding.FragmentLobbyBinding
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
+import de.thm.mobiletech.hideandguess.rest.services.getAvatar
 import de.thm.mobiletech.hideandguess.rest.services.lobbyInfo
+import de.thm.mobiletech.hideandguess.rest.services.postAvatar
 import de.thm.mobiletech.hideandguess.util.DataBindingFragment
 import de.thm.mobiletech.hideandguess.util.showError
 import kotlinx.coroutines.async
@@ -46,7 +48,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         binding.recyclerViewUser.adapter = UserAdapter(userList, onClick = {
             val action = LobbyFragmentDirections.actionOpenUserDetailFragment(it)
             navController.navigate(action)
-        })
+        }, resources)
 
         mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
@@ -66,6 +68,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
     private suspend fun getLobbyInfo(): LobbyInfo? {
         return when (val result = RestClient.lobbyInfo(lobbyId)) {
             is Result.Success -> {
+                println(Gson().fromJson(result.data.toString(), LobbyInfo::class.java).lobbyPlayers.indices)
                 Gson().fromJson(result.data.toString(), LobbyInfo::class.java)
             }
 

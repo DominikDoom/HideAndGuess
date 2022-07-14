@@ -36,12 +36,20 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         user.set(args.user)
     }
 
+    fun printInfo() {
+        print("clothesImagesCursor: $clothesImagesCursor")
+        print("facesImagesCursor: $facesImagesCursor")
+        print("hairImagesCursor: $hairImagesCursor")
+        println()
+    }
+
     fun forwardFaces() {
         if (facesImagesCursor < Avatar.faces.size - 1)
             facesImagesCursor++
         else
             facesImagesCursor = 0
         drawPlayerImage()
+        printInfo()
     }
 
     fun backwardFaces() {
@@ -50,6 +58,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         else
             facesImagesCursor = Avatar.faces.size - 1
         drawPlayerImage()
+        printInfo()
     }
 
     fun forwardClothes() {
@@ -58,6 +67,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         else
             clothesImagesCursor = 0
         drawPlayerImage()
+        printInfo()
     }
 
     fun backwardClothes() {
@@ -66,6 +76,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         else
             clothesImagesCursor = Avatar.clothes.size - 1
         drawPlayerImage()
+        printInfo()
     }
 
     fun forwardHair() {
@@ -74,6 +85,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         else
             hairImagesCursor = 0
         drawPlayerImage()
+        printInfo()
     }
 
     fun backwardHair() {
@@ -82,15 +94,16 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
         else
             hairImagesCursor = Avatar.hair.size - 1
         drawPlayerImage()
+        printInfo()
     }
 
     private fun drawPlayerImage() {
-        drawPlayerImage(binding.imageCustomizingPlayer, resources, hairImagesCursor, clothesImagesCursor, facesImagesCursor)
+        drawPlayerImage(binding.imageCustomizingPlayer, resources, hairImagesCursor, facesImagesCursor, clothesImagesCursor)
     }
 
     fun save() {
         lifecycleScope.launch {
-            val defer = async { RestClient.postAvatar(Avatar(hairImagesCursor, clothesImagesCursor, facesImagesCursor)) }
+            val defer = async { RestClient.postAvatar(Avatar(hairImagesCursor, facesImagesCursor, clothesImagesCursor)) }
 
             when (val result = defer.await()) {
                 is Result.HttpCode -> {
