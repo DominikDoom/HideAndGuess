@@ -55,7 +55,7 @@
         android:label="DrawBlurFragment"
         tools:layout="@layout/fragment_draw_blur">
         <argument
-            android:name="username"
+            android:name="chosenUrl"
             app:argType="string" />
         <action
             android:id="@+id/action_drawBlurFragment_to_guessFragment"
