@@ -5,6 +5,8 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -31,5 +33,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }, 0, 1000)
+    }
+
+    fun showTimer() {
+        progressBar!!.isVisible = true
+    }
+
+    fun hideTimer() {
+        progressBar!!.isInvisible = true
     }
 }

@@ -51,9 +51,7 @@ class LoginFragment : DataBindingFragment<FragmentLoginBinding>(R.layout.fragmen
     }
 
     fun openRegisterFragment() {
-        val a = activity as MainActivity
-        a.startTimer(20)
-        //navController.navigate(R.id.action_loginFragment_to_registerFragment)
+        navController.navigate(R.id.action_loginFragment_to_registerFragment)
     }
 
     companion object {
