@@ -18,5 +18,12 @@
     <string name="start">Starten</string>
     <string name="lobbyCodeHint">Lobby-Code eingeben…</string>
     <string name="lobbyMaxPlayersHint">Maximale Spielerzahl</string>
+    <string name="statisticRoundsWon">gewonnene Runden</string>
+    <string name="statisticRoundsLost">verlorene Runden</string>
+    <string name="statisticGuessedRight">richtig geraten</string>
+    <string name="statisticGuessedWrong">falsch geraten</string>
+    <string name="statisticPointsEarned">erzielte Punkte</string>
+    <string name="save">Speichern</string>
+
 
 </resources>
