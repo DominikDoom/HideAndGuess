@@ -14,7 +14,6 @@ suspend fun RestClient.getAvatar(): Result<String> {
 }
 
 suspend fun RestClient.postAvatar(avatar: Avatar): Result<Int> {
-    println(Gson().toJson(avatar))
     return try {
         postRequest("avatar", Gson().toJson(avatar))
     } catch (e: Exception) {

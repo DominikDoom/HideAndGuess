@@ -55,7 +55,7 @@ object RestClient {
                 if (doOutput) {
                     setRequestProperty("Content-Type", "application/json")
                     outputStream.bufferedWriter().use {
-                        it.write(body!!.escape())
+                        it.write(body)
                     }
                 }
 

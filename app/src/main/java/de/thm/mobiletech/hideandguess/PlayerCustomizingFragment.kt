@@ -90,7 +90,7 @@ class PlayerCustomizingFragment : DataBindingFragment<FragmentPlayerCustomizingB
 
     fun save() {
         lifecycleScope.launch {
-            val defer = async { RestClient.postAvatar(Avatar(facesImagesCursor, clothesImagesCursor, hairImagesCursor)) }
+            val defer = async { RestClient.postAvatar(Avatar(hairImagesCursor, clothesImagesCursor, facesImagesCursor)) }
 
             when (val result = defer.await()) {
                 is Result.HttpCode -> {

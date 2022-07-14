@@ -1,5 +1,6 @@
 package de.thm.mobiletech.hideandguess
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -28,9 +29,9 @@ class Avatar {
             val bmClothes = BitmapFactory.decodeResource(resources, clothes[indexClothes])
             val bmFace = BitmapFactory.decodeResource(resources, faces[indexFace])
             val bmHair = BitmapFactory.decodeResource(resources, hair[indexHair])
-            val bmOverlay = Bitmap.createBitmap(256, 256, bmClothes.config)
+            val bmOverlay = Bitmap.createBitmap(bmClothes.width, bmClothes.height, bmClothes.config)
             val canvas = Canvas(bmOverlay)
-            val rect = Rect(0, 0, 256, 256)
+            val rect = Rect(0, 0, bmClothes.width, bmClothes.height)
             canvas.drawBitmap(bmFace, rect, rect, null)
             canvas.drawBitmap(bmClothes, rect, rect, null)
             canvas.drawBitmap(bmHair, rect, rect, null)
