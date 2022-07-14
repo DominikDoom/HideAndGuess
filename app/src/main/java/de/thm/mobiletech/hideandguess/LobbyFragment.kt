@@ -28,6 +28,10 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
 
     private var userList = mutableListOf<User>()
 
+    private var lobbyOwner by Delegates.notNull<User>()
+
+    private lateinit var mainHandler: Handler
+
     override fun setBindingContext() {
         binding.context = this
     }
@@ -44,7 +48,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
             navController.navigate(action)
         })
 
-        val mainHandler = Handler(Looper.getMainLooper())
+        mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object : Runnable {
             override fun run() {
                 Log.d("LobbyFragment", "Refreshing lobby")
@@ -52,7 +56,11 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
                 mainHandler.postDelayed(this, 1000)
             }
         })
+    }
 
+    override fun onPause() {
+        super.onPause()
+        mainHandler.removeCallbacksAndMessages(null)
     }
 
     private suspend fun getLobbyInfo(): LobbyInfo? {
@@ -79,15 +87,16 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
 
             val result = defer.await()
 
-            val oldList = userList
+            val oldList = userList.toMutableList()
 
             userList.clear()
             userList.addAll(result!!.lobbyPlayers)
 
-            if (oldList == userList)
-                return@launch
+            if (oldList != userList) {
+                binding.recyclerViewUser.adapter?.notifyDataSetChanged()
+            }
 
-            binding.recyclerViewUser.adapter?.notifyDataSetChanged()
+            binding.extendedFab.isEnabled = result.lobbyOwner.username == args.user.username
         }
     }
 

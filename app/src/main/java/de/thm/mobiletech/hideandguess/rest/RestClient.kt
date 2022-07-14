@@ -61,7 +61,7 @@ object RestClient {
 
                 connect()
                 when (responseCode) {
-                    200, 401 -> return@withContext Result.HttpCode(responseCode)
+                    200, 401, 403, 404, 409 -> return@withContext Result.HttpCode(responseCode)
                     else -> return@withContext Result.Error(Exception("Unexpected response code: $responseCode"))
                 }
             }
@@ -88,6 +88,33 @@ object RestClient {
                     200 -> return@withContext Result.Success(inputStream.bufferedReader().use {
                         it.readText()
                     })
+                    else -> return@withContext Result.Error(Exception("Unexpected response code: $responseCode"))
+                }
+            }
+        }
+    }
+
+    suspend fun putRequestWithReturn(endpoint: String, body : String? = null) : Result<String?> {
+        return withContext(Dispatchers.IO) {
+            val url = URL(URL + endpoint)
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "PUT"
+                setRequestProperty("Authorization", auth.authToken)
+                doOutput = !body.isNullOrEmpty()
+
+                if (doOutput) {
+                    setRequestProperty("Content-Type", "application/json")
+                    outputStream.bufferedWriter().use {
+                        it.write(body!!.escape())
+                    }
+                }
+
+                connect()
+                when (responseCode) {
+                    200 -> return@withContext Result.Success(inputStream.bufferedReader().use {
+                        it.readText()
+                    })
+                    403, 500 -> return@withContext Result.Error(Exception("Error: $responseCode"))
                     else -> return@withContext Result.Error(Exception("Unexpected response code: $responseCode"))
                 }
             }

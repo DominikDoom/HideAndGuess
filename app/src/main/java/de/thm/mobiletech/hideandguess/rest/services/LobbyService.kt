@@ -3,9 +3,9 @@ package de.thm.mobiletech.hideandguess.rest.services
 import de.thm.mobiletech.hideandguess.rest.RestClient
 import de.thm.mobiletech.hideandguess.rest.Result
 
-suspend fun RestClient.createLobby(): Result<Int> {
+suspend fun RestClient.create(): Result<String?> {
     return try {
-        putRequest("lobby")
+        putRequestWithReturn("lobby")
     } catch (e: Exception) {
         Result.Error(e)
     }
