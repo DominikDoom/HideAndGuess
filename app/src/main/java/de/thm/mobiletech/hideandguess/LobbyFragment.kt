@@ -85,9 +85,7 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
             }
             if (result is Result.HttpCode) {
                 when (result.code) {
-                    200 -> {
-                        requestPainter()
-                    }
+                    200 -> Log.d("LobbyFragment", "Game started")
                     else -> {
                         requireActivity().showError(
                             "LobbyFragment",
@@ -108,10 +106,9 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
         (requireActivity() as MainActivity).hideProgressDialog()
 
         if (painter.username == args.user.username) {
-            navController.navigate(R.id.action_lobbyFragment_to_imageSelectionFragment)
+            val action = LobbyFragmentDirections.actionLobbyFragmentToImageSelectionFragment(lobbyId)
+            navController.navigate(action)
         } else {
-            // val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment()
-            // navController.navigate(action)
             (requireActivity() as MainActivity).showOtherPaintingDialog(painter.username)
         }
     }
@@ -164,21 +161,28 @@ class LobbyFragment : DataBindingFragment<FragmentLobbyBinding>(R.layout.fragmen
 
     private var lastLobbyState: LobbyState? = null
 
+    private var blocker: Boolean = false
+
     private suspend fun evaluateLobbyState(lobbyState: LobbyState) {
+        if (blocker) {
+            return
+        }
+
+        blocker = true
         if ((lastLobbyState == null || lastLobbyState == LobbyState.NOT_IN_GAME) && lobbyState == LobbyState.PAINTING_CHOOSE) {
-            lastLobbyState = lobbyState
             requestPainter()
         } else if (lastLobbyState == lobbyState) {
             // do nothing
         } else if (lastLobbyState == LobbyState.PAINTING_CHOOSE && lobbyState == LobbyState.PAINTING) {
             // do nothing
-            lastLobbyState = lobbyState
         } else if (lastLobbyState == LobbyState.PAINTING && lobbyState == LobbyState.GUESSING) {
-            lastLobbyState = lobbyState
             (requireActivity() as MainActivity).hideOtherPaintingDialog()
             val action = LobbyFragmentDirections.actionLobbyFragmentToGuessFragment(lobbyId)
             navController.navigate(action)
         }
+
+        lastLobbyState = lobbyState
+        blocker = false
     }
 
     data class LobbyInfo(

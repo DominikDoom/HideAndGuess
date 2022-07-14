@@ -53,17 +53,6 @@ class ImageSelectionFragment :
         // Load images from pexels API
         Log.d("ImageSelectionFragment", "Loading images from pexels API")
         loadImages()
-
-        object : CountDownTimer(30000, 1000) {
-
-            override fun onTick(millisUntilFinished: Long) {
-                Log.d("ImageSelectionFragment", "onTick: $millisUntilFinished")
-            }
-
-            override fun onFinish() {
-                Log.d("ImageSelectionFragment", "choosing random image")
-            }
-        }.start()
     }
 
     override fun setBindingContext() {
@@ -124,18 +113,30 @@ class ImageSelectionFragment :
     }
 
     private fun submitPaintingChoice(selectedUrl: String) {
+        val selectedQuery = imageOptions[selectedUrl]!!.first()
+
         lifecycleScope.launch {
-            val defer = async { RestClient.submitPaintingChoice(selectedUrl, args.lobbyId) }
-            when (defer.await()) {
-                is Result.Success -> {
-                    val action =
-                        ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl)
-                    navController.navigate(action)
+            val defer = async { RestClient.submitPaintingChoice(selectedQuery, args.lobbyId) }
+            when (val result = defer.await()) {
+                is Result.HttpCode -> {
+                    when (result.code) {
+                        200 -> {
+                            val action =
+                                ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl, args.lobbyId)
+                            navController.navigate(action)
+                        }
+                        else -> {
+                            requireActivity().showError(
+                                "ImageSelectionFragment",
+                                "Something went wrong while submitting the choice"
+                            )
+                        }
+                    }
                 }
                 else -> {
                     requireActivity().showError(
                         "LobbyFragment",
-                        "Something went wrong while getting the lobby info"
+                        "Something went wrong while submitting the choice"
                     )
                 }
             }

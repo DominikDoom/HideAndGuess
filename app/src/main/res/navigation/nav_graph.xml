@@ -57,6 +57,9 @@
         <argument
             android:name="chosenUrl"
             app:argType="string" />
+        <argument
+            android:name="lobbyId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_drawBlurFragment_to_guessFragment"
             app:destination="@id/guessFragment"
