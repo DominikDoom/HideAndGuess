@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarTimer"
+        app:layout_constraintVertical_bias="0.0"
+        app:navGraph="@navigation/nav_graph"
+        tools:layout="@layout/fragment_main_menu" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBarTimer"
         android:layout_width="match_parent"
@@ -18,20 +33,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:trackThickness="10dp" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/navHost"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navGraph="@navigation/nav_graph"
-        tools:layout="@layout/fragment_main_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

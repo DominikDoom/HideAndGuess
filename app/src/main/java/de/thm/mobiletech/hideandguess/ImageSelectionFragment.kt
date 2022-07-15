@@ -32,7 +32,7 @@ class ImageSelectionFragment :
     DataBindingFragment<FragmentImageSelectionBinding>(R.layout.fragment_image_selection) {
 
     private var imageOptions: Map<String, List<String>> = mutableMapOf()
-    private var lastQuery: String? = null
+    private var lastImages: Array<String>? = null
 
     private val args: ImageSelectionFragmentArgs by navArgs()
 
@@ -41,7 +41,7 @@ class ImageSelectionFragment :
         savedInstanceState: Bundle?
     ): View {
         savedInstanceState?.let { bundle ->
-            lastQuery = bundle.getString("lastQuery")
+            lastImages = bundle.getStringArray("lastImages")
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -61,31 +61,43 @@ class ImageSelectionFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("lastQuery", lastQuery)
+        //outState.putStringArray("lastImages", lastImages)
     }
 
     private fun loadImages() {
         lifecycleScope.launch {
             (requireActivity() as MainActivity).showProgressDialog()
 
-            val defer = async { RestClient.getImageOptions() }
-            when (val result = defer.await()) {
-                is Result.Success -> {
-                    val imgMapType: Type = object : TypeToken<Map<String, List<String>>>() {}.type
-                    imageOptions = Gson().fromJson(result.data.toString(), imgMapType)
-                }
+            var imageUrls: List<String> = listOf()
 
-                else -> {
-                    requireActivity().showError(
-                        "LobbyFragment",
-                        "Something went wrong while getting the lobby info"
-                    )
+            if (lastImages == null) {
+                val defer = async { RestClient.getImageOptions() }
+                when (val result = defer.await()) {
+                    is Result.Success -> {
+                        val imgMapType: Type =
+                            object : TypeToken<Map<String, List<String>>>() {}.type
+                        imageOptions = Gson().fromJson(result.data.toString(), imgMapType)
+
+                        imageUrls = imageOptions.keys.toList()
+                        val firstSynonym = imageOptions[imageOptions.keys.first()]!![1]
+                        requireActivity().title = "Bitte Bild für \"${firstSynonym}\" auswählen"
+                    }
+
+                    else -> {
+                        requireActivity().showError(
+                            "LobbyFragment",
+                            "Something went wrong while getting the lobby info"
+                        )
+                    }
                 }
+            } else {
+                imageUrls = lastImages!!.toList();
             }
 
             Log.d("ImageSelectionFragment", "imageOptions: $imageOptions")
 
-            val imageUrls = imageOptions.keys.toList()
+            lastImages = imageUrls.toTypedArray()
+
             Log.d("ImageSelectionFragment", "imageOptions: $imageUrls")
 
             val context = this@ImageSelectionFragment
@@ -97,13 +109,18 @@ class ImageSelectionFragment :
         }
     }
 
+    override fun onPause() {
+        requireActivity().title = "HideAndGuess"
+        super.onPause()
+    }
+
     fun selectImage(index: Int) {
-        val imageUrls = imageOptions.keys.toList()
+        //val imageUrls = imageOptions.keys.toList()
 
         val selectedUrl: String = when (index) {
-            0 -> imageUrls[0]
-            1 -> imageUrls[1]
-            2 -> imageUrls[2]
+            0 -> lastImages!![0]
+            1 -> lastImages!![1]
+            2 -> lastImages!![2]
             else -> throw IllegalArgumentException("Index must be 0, 1 or 2")
         }
 
@@ -121,8 +138,9 @@ class ImageSelectionFragment :
                 is Result.HttpCode -> {
                     when (result.code) {
                         200 -> {
+                            val firstSynonym = imageOptions[selectedUrl]!![1]
                             val action =
-                                ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl, args.lobbyId)
+                                ImageSelectionFragmentDirections.actionImageSelectionFragmentToDrawBlurFragment(selectedUrl, args.lobbyId, firstSynonym)
                             navController.navigate(action)
                         }
                         else -> {

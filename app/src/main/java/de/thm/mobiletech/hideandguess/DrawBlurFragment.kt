@@ -27,19 +27,20 @@ class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.f
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as MainActivity).startTimer(30, this)
-
         // Add listener for multiplier display
         binding.blurDrawView.currentMultiplier.observe(viewLifecycleOwner) {
             val formattedMult = String.format("%.2f", it)
             binding.multiplierLabel.text = "Current multiplier: $formattedMult"
         }
 
+        requireActivity().title = "Bitte \"${args.firstSynonym}\" verdecken"
+
         Glide.with(this)
             .load(args.chosenUrl)
             .listener(GlideCallback {
                 binding.blurDrawView.setImageDrawable(it) // We need to set it ourselves to ensure it is ready
                 binding.blurDrawView.initialize()
+                (requireActivity() as MainActivity).startTimer(30, this)
             })
             .into(binding.blurDrawView)
     }
@@ -50,6 +51,11 @@ class DrawBlurFragment : DataBindingFragment<FragmentDrawBlurBinding>(R.layout.f
 
     fun resetButtonClicked() {
         binding.blurDrawView.reset()
+    }
+
+    override fun onPause() {
+        requireActivity().title = "HideAndGuess"
+        super.onPause()
     }
 
     override fun onTimerFinished() {

@@ -3,6 +3,8 @@ package de.thm.mobiletech.hideandguess
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
@@ -65,10 +67,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showTimer() {
-        progressBar!!.isVisible = true
+        progressBar!!.visibility = VISIBLE
     }
 
     private fun hideTimer() {
-        progressBar!!.isInvisible = true
+        progressBar!!.visibility = GONE
     }
 }
